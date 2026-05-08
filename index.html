@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Ariapura — Sanificazione Aeraulica Bologna | 5 Piste Cinematografiche</title>
+<meta name="description" content="Sanificazione condotte aerauliche, manutenzione impianti, filtri elettrostatici. Bologna e provincia. Sopralluogo gratuito. Da oltre 30 anni." />
+
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Google Fonts: 5 variants -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Archivo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<!-- Three.js for V1 Aether -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+<style>
+  * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; padding: 0; overflow-x: hidden; }
+
+  /* Switcher */
+  .switcher {
+    position: fixed; top: 16px; right: 16px; z-index: 9999;
+    display: flex; gap: 6px; padding: 8px;
+    background: rgba(10,15,20,0.85); backdrop-filter: blur(12px);
+    border-radius: 999px; border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .switcher button {
+    font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 8px 12px; border-radius: 999px;
+    background: transparent; color: rgba(255,255,255,0.7);
+    border: 1px solid transparent; cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .switcher button:hover { color: #fff; background: rgba(255,255,255,0.08); }
+  .switcher button.active { background: #fff; color: #0A0F14; }
+
+  /* Hide all variants by default, show active */
+  .variant { display: none; }
+  body.v-aether .variant.v-aether,
+  body.v-solomeo .variant.v-solomeo,
+  body.v-cleanroom .variant.v-cleanroom,
+  body.v-terra .variant.v-terra,
+  body.v-cinecitta .variant.v-cinecitta { display: block; }
+
+  /* === V1 AETHER === */
+  .v-aether { background: #0A0F14; color: #E8EEF2; font-family: 'Inter', sans-serif; }
+  .v-aether .display { font-family: 'Spectral', serif; font-weight: 300; letter-spacing: -0.02em; }
+  .v-aether .accent { color: #7FB8C9; }
+  .v-aether .hero-aether {
+    position: relative; height: 100vh; min-height: 700px; overflow: hidden;
+    background: radial-gradient(ellipse at center, #0d1620 0%, #050709 100%);
+  }
+  .v-aether #aether-canvas {
+    position: absolute; inset: 0; z-index: 1;
+  }
+  .v-aether .hero-content {
+    position: relative; z-index: 2; height: 100%;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 0 24px;
+  }
+  .v-aether .topbar {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 5;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 40px;
+  }
+  .v-aether .brand-mark { font-family: 'Spectral', serif; font-size: 22px; letter-spacing: 0.12em; }
+  .v-aether .phone-pill {
+    border: 1px solid rgba(127,184,201,0.4); padding: 8px 18px; border-radius: 999px;
+    font-size: 13px; letter-spacing: 0.1em;
+  }
+  .v-aether .section { padding: 120px 24px; max-width: 1200px; margin: 0 auto; }
+  .v-aether .section-narrow { max-width: 880px; }
+  .v-aether .h-display { font-family: 'Spectral', serif; font-weight: 300; font-size: clamp(40px, 6vw, 88px); line-height: 1.02; letter-spacing: -0.02em; }
+  .v-aether .h-section { font-family: 'Spectral', serif; font-weight: 400; font-size: clamp(32px, 4.5vw, 56px); line-height: 1.1; letter-spacing: -0.015em; }
+  .v-aether .lead { font-size: clamp(17px, 2vw, 22px); line-height: 1.5; color: #C4D3D9; }
+  .v-aether .kicker { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: #7FB8C9; }
+  .v-aether .cta-primary {
+    display: inline-block; background: #E8EEF2; color: #0A0F14;
+    padding: 16px 32px; font-weight: 600; letter-spacing: 0.04em;
+    border-radius: 2px; transition: transform 0.2s;
+  }
+  .v-aether .cta-primary:hover { transform: translateY(-2px); }
+  .v-aether .cta-secondary {
+    display: inline-block; border: 1px solid rgba(232,238,242,0.3); color: #E8EEF2;
+    padding: 16px 32px; font-weight: 500; letter-spacing: 0.04em; border-radius: 2px;
+  }
+  .v-aether .card-dark {
+    background: rgba(232,238,242,0.04); border: 1px solid rgba(232,238,242,0.08);
+    padding: 32px; border-radius: 2px;
+  }
+  .v-aether .step-num { font-family: 'Spectral', serif; font-size: 56px; color: #7FB8C9; font-weight: 300; }
+  .v-aether .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+  .v-aether .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+  .v-aether .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .v-aether .divider { height: 1px; background: rgba(232,238,242,0.12); margin: 80px 0; }
+  .v-aether input, .v-aether textarea, .v-aether select {
+    background: rgba(232,238,242,0.04); border: 1px solid rgba(232,238,242,0.15);
+    padding: 14px 16px; color: #E8EEF2; width: 100%; border-radius: 2px;
+    font-family: 'Inter', sans-serif;
+  }
+  .v-aether input:focus, .v-aether textarea:focus { outline: 1px solid #7FB8C9; }
+
+  /* === V2 SOLOMEO === */
+  .v-solomeo { background: #F5EFE4; color: #2B2620; font-family: 'Manrope', sans-serif; }
+  .v-solomeo .display { font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+  .v-solomeo .accent { color: #8C6F4B; }
+  .v-solomeo .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 40px; border-bottom: 1px solid rgba(43,38,32,0.1);
+    position: sticky; top: 0; background: rgba(245,239,228,0.95); backdrop-filter: blur(8px); z-index: 50;
+  }
+  .v-solomeo .brand-mark { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 500; letter-spacing: 0.05em; }
+  .v-solomeo .hero-solomeo {
+    position: relative; height: 90vh; min-height: 600px; overflow: hidden;
+    background-image: url('https://images.unsplash.com/photo-1570799578105-848c8af89c2c?w=2400&q=80');
+    background-size: cover; background-position: center;
+    animation: kenburns 20s ease-in-out infinite alternate;
+  }
+  @keyframes kenburns {
+    0% { background-size: 110%; background-position: 50% 50%; }
+    100% { background-size: 125%; background-position: 55% 45%; }
+  }
+  .v-solomeo .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(43,38,32,0.2) 0%, rgba(43,38,32,0.65) 100%);
+    display: flex; align-items: flex-end; padding: 80px 40px;
+  }
+  .v-solomeo .hero-content { color: #F5EFE4; max-width: 880px; }
+  .v-solomeo .h-display { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-style: italic; font-size: clamp(44px, 7vw, 96px); line-height: 1.05; letter-spacing: -0.01em; }
+  .v-solomeo .h-section { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: clamp(32px, 5vw, 64px); line-height: 1.08; }
+  .v-solomeo .h-section-italic { font-style: italic; }
+  .v-solomeo .lead { font-size: clamp(16px, 1.5vw, 19px); line-height: 1.6; }
+  .v-solomeo .kicker { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #8C6F4B; font-weight: 500; }
+  .v-solomeo .section { padding: 100px 40px; max-width: 1200px; margin: 0 auto; }
+  .v-solomeo .section-narrow { max-width: 760px; }
+  .v-solomeo .cta-primary {
+    display: inline-block; background: #2B2620; color: #F5EFE4;
+    padding: 18px 36px; font-family: 'Manrope', sans-serif; font-weight: 500;
+    letter-spacing: 0.06em; font-size: 14px; text-transform: uppercase;
+  }
+  .v-solomeo .cta-secondary {
+    display: inline-block; border-bottom: 1px solid #8C6F4B; color: #5C4A36;
+    padding: 4px 0; font-family: 'Manrope', sans-serif; font-size: 14px;
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .v-solomeo .card-paper {
+    background: #FBF7EF; border: 1px solid rgba(43,38,32,0.08);
+    padding: 36px;
+  }
+  .v-solomeo .timeline-item {
+    border-left: 1px solid #C9B79C; padding-left: 28px; padding-bottom: 36px; position: relative;
+  }
+  .v-solomeo .timeline-item::before {
+    content: ''; position: absolute; left: -5px; top: 0; width: 9px; height: 9px;
+    background: #8C6F4B; border-radius: 50%;
+  }
+  .v-solomeo .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; }
+  .v-solomeo .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+  .v-solomeo input, .v-solomeo textarea {
+    background: #FBF7EF; border: 1px solid rgba(43,38,32,0.2);
+    padding: 14px 16px; width: 100%; font-family: 'Manrope', sans-serif;
+  }
+
+  /* === V3 CLEANROOM === */
+  .v-cleanroom { background: #FAFAFA; color: #0E0E10; font-family: 'JetBrains Mono', monospace; }
+  .v-cleanroom .display { font-family: 'Spectral', serif; }
+  .v-cleanroom .accent { color: #A6E0D2; }
+  .v-cleanroom .alarm { color: #FF4521; }
+  .v-cleanroom .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 32px; border-bottom: 1px solid #0E0E10;
+    background: #FAFAFA; position: sticky; top: 0; z-index: 50;
+  }
+  .v-cleanroom .brand-mark { font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: 0.15em; font-weight: 600; text-transform: uppercase; }
+  .v-cleanroom .hero-cleanroom {
+    position: relative; height: 95vh; min-height: 640px; overflow: hidden;
+    background:
+      radial-gradient(ellipse 80% 60% at center, rgba(166,224,210,0.15), transparent 60%),
+      url('https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=2400&q=80');
+    background-size: cover; background-position: center;
+  }
+  .v-cleanroom .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(250,250,250,0.05), rgba(14,14,16,0.85));
+    display: flex; align-items: flex-end; padding: 60px 32px;
+  }
+  .v-cleanroom .hero-content { color: #FAFAFA; max-width: 1100px; }
+  .v-cleanroom .h-display { font-family: 'Spectral', serif; font-weight: 400; font-size: clamp(40px, 6vw, 80px); line-height: 1.0; letter-spacing: -0.02em; }
+  .v-cleanroom .h-section { font-family: 'Spectral', serif; font-weight: 400; font-size: clamp(28px, 4vw, 48px); line-height: 1.1; letter-spacing: -0.01em; }
+  .v-cleanroom .lead { font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.7; color: #444; }
+  .v-cleanroom .lead-light { color: #D8DEE3; }
+  .v-cleanroom .kicker { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #0E0E10; }
+  .v-cleanroom .kicker-accent { color: #A6E0D2; }
+  .v-cleanroom .section { padding: 80px 32px; max-width: 1280px; margin: 0 auto; }
+  .v-cleanroom .section-narrow { max-width: 880px; }
+  .v-cleanroom .cta-primary {
+    display: inline-block; background: #0E0E10; color: #FAFAFA;
+    padding: 16px 28px; font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500;
+    border-radius: 2px;
+  }
+  .v-cleanroom .cta-secondary {
+    display: inline-block; border: 1px solid #0E0E10; color: #0E0E10;
+    padding: 16px 28px; font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .v-cleanroom .spec-card {
+    background: #FFFFFF; border: 1px solid #D8DEE3;
+    padding: 24px; border-radius: 2px;
+  }
+  .v-cleanroom .spec-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.15em; color: #888; }
+  .v-cleanroom .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .v-cleanroom .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .v-cleanroom .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .v-cleanroom input, .v-cleanroom textarea {
+    background: #FFFFFF; border: 1px solid #D8DEE3;
+    padding: 12px 14px; font-family: 'JetBrains Mono', monospace; font-size: 13px;
+    width: 100%; border-radius: 2px;
+  }
+  .v-cleanroom .badge {
+    display: inline-block; font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 4px 10px; border: 1px solid currentColor; border-radius: 2px;
+  }
+
+  /* === V4 TERRA NUOVA === */
+  .v-terra { background: #1A2A2E; color: #E4DCC8; font-family: 'DM Sans', sans-serif; }
+  .v-terra .display { font-family: 'Fraunces', serif; font-style: italic; }
+  .v-terra .accent { color: #6B8E7F; }
+  .v-terra .brass { color: #B8945C; }
+  .v-terra .topbar {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 30;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 40px;
+  }
+  .v-terra .brand-mark { font-family: 'Fraunces', serif; font-style: italic; font-size: 26px; font-weight: 400; }
+  .v-terra .hero-terra {
+    position: relative; height: 100vh; min-height: 700px; overflow: hidden;
+    background-image: url('https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=2400&q=80');
+    background-size: cover; background-position: center; background-attachment: fixed;
+  }
+  .v-terra .parallax-fog {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(26,42,46,0.4) 0%, rgba(26,42,46,0.1) 40%, rgba(26,42,46,0.85) 100%);
+    pointer-events: none;
+  }
+  .v-terra .hero-content {
+    position: relative; z-index: 10; height: 100%;
+    display: flex; flex-direction: column; justify-content: flex-end; padding: 80px 40px;
+    color: #F2EDE3; max-width: 1100px;
+  }
+  .v-terra .h-display { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: clamp(44px, 7vw, 100px); line-height: 1.0; letter-spacing: -0.02em; }
+  .v-terra .h-section { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: clamp(34px, 5vw, 64px); line-height: 1.05; }
+  .v-terra .lead { font-family: 'DM Sans', sans-serif; font-size: clamp(16px, 1.6vw, 19px); line-height: 1.6; color: #C9C0AB; }
+  .v-terra .kicker { font-family: 'DM Sans', sans-serif; font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase; color: #B8945C; font-weight: 500; }
+  .v-terra .section { padding: 110px 40px; max-width: 1200px; margin: 0 auto; }
+  .v-terra .section-narrow { max-width: 820px; }
+  .v-terra .section-light { background: #F2EDE3; color: #1A2A2E; }
+  .v-terra .section-light .accent { color: #6B8E7F; }
+  .v-terra .section-light .lead { color: #3A4A4E; }
+  .v-terra .cta-primary {
+    display: inline-block; background: #B8945C; color: #1A2A2E;
+    padding: 18px 36px; font-family: 'DM Sans', sans-serif;
+    font-weight: 600; letter-spacing: 0.04em; font-size: 15px;
+  }
+  .v-terra .cta-secondary {
+    display: inline-block; border: 1px solid currentColor; color: inherit;
+    padding: 18px 36px; font-family: 'DM Sans', sans-serif; font-weight: 500;
+    letter-spacing: 0.04em; font-size: 15px;
+  }
+  .v-terra .case-card {
+    background: #243438; border: 1px solid rgba(228,220,200,0.1);
+    padding: 32px; border-radius: 4px;
+  }
+  .v-terra .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; }
+  .v-terra .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+  .v-terra .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .v-terra input, .v-terra textarea {
+    background: rgba(228,220,200,0.05); border: 1px solid rgba(228,220,200,0.2);
+    padding: 14px 16px; color: #E4DCC8; width: 100%;
+  }
+  .v-terra .section-light input, .v-terra .section-light textarea {
+    background: #FFFFFF; border: 1px solid rgba(26,42,46,0.2); color: #1A2A2E;
+  }
+
+  /* === V5 CINECITTÀ === */
+  .v-cinecitta { background: #0B1416; color: #F6E9D2; font-family: 'Archivo', sans-serif; }
+  .v-cinecitta .display { font-family: 'Playfair Display', serif; font-style: italic; }
+  .v-cinecitta .accent { color: #D97742; }
+  .v-cinecitta .teal { color: #3E8E9C; }
+  .v-cinecitta .topbar {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 30;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 40px; color: #F6E9D2;
+  }
+  .v-cinecitta .brand-mark { font-family: 'Playfair Display', serif; font-style: italic; font-size: 24px; }
+  .v-cinecitta .hero-cinema {
+    position: relative; height: 100vh; min-height: 720px; overflow: hidden;
+    background: #000;
+  }
+  .v-cinecitta .letterbox {
+    position: absolute; inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=2400&q=80');
+    background-size: cover; background-position: center;
+    clip-path: inset(15% 0 15% 0);
+    filter: contrast(1.05) saturate(0.9);
+  }
+  .v-cinecitta .anamorphic-flare {
+    position: absolute; top: 35%; left: 60%; width: 60%; height: 8px;
+    background: linear-gradient(90deg, transparent, rgba(217,119,66,0.5), transparent);
+    filter: blur(8px); pointer-events: none;
+  }
+  .v-cinecitta .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(11,20,22,0.5) 0%, rgba(11,20,22,0.2) 50%, rgba(11,20,22,0.85) 100%);
+    display: flex; align-items: center; justify-content: center; padding: 0 40px;
+  }
+  .v-cinecitta .title-card { text-align: center; max-width: 1000px; color: #F6E9D2; }
+  .v-cinecitta .h-display { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 500; font-size: clamp(48px, 8vw, 110px); line-height: 1.0; letter-spacing: -0.015em; }
+  .v-cinecitta .h-section { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 500; font-size: clamp(32px, 5vw, 60px); line-height: 1.08; }
+  .v-cinecitta .lead { font-family: 'Archivo', sans-serif; font-size: clamp(16px, 1.6vw, 19px); line-height: 1.6; color: #C9BBA0; }
+  .v-cinecitta .kicker {
+    font-family: 'Archivo', sans-serif; font-size: 11px; letter-spacing: 0.32em;
+    text-transform: uppercase; color: #D97742; font-weight: 600;
+  }
+  .v-cinecitta .chapter-num { font-family: 'Playfair Display', serif; font-style: italic; font-size: 14px; letter-spacing: 0.3em; color: #D97742; text-transform: uppercase; }
+  .v-cinecitta .section { padding: 110px 40px; max-width: 1180px; margin: 0 auto; }
+  .v-cinecitta .section-narrow { max-width: 800px; }
+  .v-cinecitta .cta-primary {
+    display: inline-block; background: #D97742; color: #0B1416;
+    padding: 18px 36px; font-family: 'Archivo', sans-serif; font-weight: 700;
+    letter-spacing: 0.08em; font-size: 13px; text-transform: uppercase;
+  }
+  .v-cinecitta .cta-secondary {
+    display: inline-block; border: 1px solid #F6E9D2; color: #F6E9D2;
+    padding: 18px 36px; font-family: 'Archivo', sans-serif; font-weight: 500;
+    letter-spacing: 0.08em; font-size: 13px; text-transform: uppercase;
+  }
+  .v-cinecitta .scene-card {
+    background: #1F1A14; border: 1px solid rgba(246,233,210,0.1);
+    padding: 32px; border-radius: 2px;
+  }
+  .v-cinecitta .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+  .v-cinecitta .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .v-cinecitta .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+  .v-cinecitta input, .v-cinecitta textarea {
+    background: rgba(246,233,210,0.05); border: 1px solid rgba(246,233,210,0.2);
+    padding: 14px 16px; color: #F6E9D2; width: 100%;
+    font-family: 'Archivo', sans-serif;
+  }
+  .v-cinecitta .end-card {
+    text-align: center; padding: 80px 0; border-top: 1px solid rgba(246,233,210,0.15);
+  }
+
+  /* shared form helper */
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 640px) {
+    .form-row { grid-template-columns: 1fr; }
+    .switcher button { padding: 6px 9px; font-size: 10px; }
+  }
+
+  /* FAQ */
+  details summary { cursor: pointer; list-style: none; }
+  details summary::-webkit-details-marker { display: none; }
+  details[open] summary .icn { transform: rotate(45deg); }
+  .icn { display: inline-block; transition: transform 0.2s; }
+
+  /* whatsapp float */
+  .wa-float {
+    position: fixed; bottom: 24px; right: 24px; z-index: 9990;
+    width: 56px; height: 56px; border-radius: 50%; background: #25D366;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 26px; box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    text-decoration: none;
+  }
+</style>
+
+<!-- Schema: LocalBusiness + HVACBusiness -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": ["LocalBusiness", "HVACBusiness"],
+  "name": "Ariapura",
+  "description": "Sanificazione condotte aerauliche, manutenzione impianti HVAC, filtri elettrostatici. Bologna e provincia.",
+  "url": "https://www.ariapura.org",
+  "telephone": "+390510828717",
+  "email": "info@ariapura.org",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Via Lame 261",
+    "addressLocality": "Castel Maggiore",
+    "addressRegion": "BO",
+    "postalCode": "40013",
+    "addressCountry": "IT"
+  },
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "09:00", "closes": "13:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "14:30", "closes": "17:30" }
+  ],
+  "areaServed": [
+    { "@type": "City", "name": "Bologna" },
+    { "@type": "City", "name": "Modena" },
+    { "@type": "City", "name": "Ferrara" },
+    { "@type": "City", "name": "Imola" }
+  ],
+  "hasCredential": ["FGAS", "ACCREDIA"],
+  "sameAs": [
+    "https://www.instagram.com/ariapurabologna",
+    "https://www.facebook.com/ariapura"
+  ]
+}
+</script>
+
+<!-- Schema: FAQPage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Ogni quanto va sanificato un impianto aeraulico?", "acceptedAnswer": { "@type": "Answer", "text": "La frequenza dipende dalla destinazione d'uso. Strutture sanitarie e ricettive: ogni 12 mesi. Uffici: ogni 24 mesi. Residenziale: ogni 36 mesi. Ariapura propone un check-up gratuito per stabilire il piano corretto per la Sua azienda." } },
+    { "@type": "Question", "name": "Il sopralluogo è davvero gratuito?", "acceptedAnswer": { "@type": "Answer", "text": "Sì. Il sopralluogo è gratuito su tutta la provincia di Bologna e zone limitrofe. Restituiamo un preventivo scritto entro 48 ore senza alcun impegno." } },
+    { "@type": "Question", "name": "Quale normativa regola la sanificazione delle condotte?", "acceptedAnswer": { "@type": "Answer", "text": "D.Lgs. 81/2008 art. 64 e Accordo Stato-Regioni del 7 febbraio 2013 sui criteri di manutenzione degli impianti aeraulici. Ariapura opera nel pieno rispetto di entrambi." } },
+    { "@type": "Question", "name": "Quali certificazioni avete?", "acceptedAnswer": { "@type": "Answer", "text": "FGAS per la manipolazione dei gas fluorurati e ACCREDIA per la conformità dei processi. Attestati disponibili su richiesta del cliente." } },
+    { "@type": "Question", "name": "Se non sono soddisfatto del risultato, cosa succede?", "acceptedAnswer": { "@type": "Answer", "text": "Ripetiamo l'intervento gratuitamente. È la nostra garanzia di soddisfazione: se il risultato non rispetta lo standard concordato, torniamo senza costi aggiuntivi." } }
+  ]
+}
+</script>
+</head>
+<body class="v-aether">
+
+<!-- Variant Switcher -->
+<nav class="switcher" role="navigation" aria-label="Selettore Variante">
+  <button data-variant="aether" class="active">V1 · Aether</button>
+  <button data-variant="solomeo">V2 · Solomeo</button>
+  <button data-variant="cleanroom">V3 · Cleanroom</button>
+  <button data-variant="terra">V4 · Terra Nuova</button>
+  <button data-variant="cinecitta">V5 · Cinecittà</button>
+</nav>
+
+<!-- WhatsApp float -->
+<a href="https://wa.me/390510828717" class="wa-float" aria-label="WhatsApp Ariapura">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- ============================================================ -->
+<!-- V1 AETHER -->
+<!-- ============================================================ -->
+<main class="variant v-aether">
+
+  <header class="topbar">
+    <div class="brand-mark">ARIAPURA</div>
+    <a href="tel:+390510828717" class="phone-pill">+39 051 0828717</a>
+  </header>
+
+  <section class="hero-aether">
+    <canvas id="aether-canvas"></canvas>
+    <div class="hero-content">
+      <p class="kicker mb-6">Sanificazione Aeraulica · Bologna</p>
+      <h1 class="h-display max-w-4xl">Lei respira ciò<br/>che non vede.</h1>
+      <p class="lead mt-8 max-w-2xl">Da oltre 30 anni rendiamo visibile l'aria delle aziende italiane.<br/>Sopralluogo gratuito. Garanzia di intervento ripetuto se non soddisfatto.</p>
+      <div class="mt-10 flex flex-wrap gap-4 justify-center">
+        <a href="#contatti-aether" class="cta-primary">Prenoti il Sopralluogo Gratuito</a>
+        <a href="#listino-aether" class="cta-secondary">Vedere il Listino Indicativo</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Manifesto -->
+  <section class="section section-narrow text-center">
+    <p class="kicker mb-6">Manifesto</p>
+    <p class="h-section">L'aria che la Sua azienda respira è il primo dispositivo di sicurezza. <span class="accent">Lo trattiamo come tale.</span></p>
+    <p class="lead mt-8">Ogni metro di condotta aeraulica è un veicolo silenzioso. Trasporta polveri, biofilm, allergeni, microorganismi. Quando non viene sanificato, l'impianto smette di servire l'edificio e inizia a contaminarlo. Ariapura interviene con metodo, strumenti certificati, e una garanzia che pochi osano scrivere.</p>
+  </section>
+
+  <div class="section"><div class="divider"></div></div>
+
+  <!-- Problema invisibile -->
+  <section class="section">
+    <div class="grid-2">
+      <div>
+        <p class="kicker mb-4">Il problema invisibile</p>
+        <h2 class="h-section">Cinque grammi di polvere<br/>per metro lineare di condotta.</h2>
+      </div>
+      <div>
+        <p class="lead mb-6">Stima media su impianti non sanificati negli ultimi 24 mesi (riferimenti normativi ASHRAE / Accordo Stato-Regioni 2013).</p>
+        <ul class="space-y-3 text-base">
+          <li class="flex gap-3"><span class="accent">→</span> Biofilm su pareti interne UTA</li>
+          <li class="flex gap-3"><span class="accent">→</span> Allergeni accumulati sui filtri esausti</li>
+          <li class="flex gap-3"><span class="accent">→</span> Particolato PM2.5 in ricircolo</li>
+          <li class="flex gap-3"><span class="accent">→</span> Riduzione efficienza impianto fino al 30%</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Metodo 4 step -->
+  <section class="section">
+    <p class="kicker mb-4 text-center">Il Metodo Ariapura</p>
+    <h2 class="h-section text-center mb-16">Quattro fasi, un protocollo.</h2>
+    <div class="grid-4">
+      <div class="card-dark">
+        <div class="step-num">01</div>
+        <h3 class="text-xl mt-4 mb-3 display">Ispezione</h3>
+        <p class="text-sm" style="color:#9aa6ad">Videoispezione robotizzata delle condotte. Mappatura punti critici. Restituzione fotografica dello stato di partenza.</p>
+      </div>
+      <div class="card-dark">
+        <div class="step-num">02</div>
+        <h3 class="text-xl mt-4 mb-3 display">Bonifica meccanica</h3>
+        <p class="text-sm" style="color:#9aa6ad">Spazzole rotanti a misura, aspirazione HEPA H13, distacco controllato del particolato.</p>
+      </div>
+      <div class="card-dark">
+        <div class="step-num">03</div>
+        <h3 class="text-xl mt-4 mb-3 display">Sanificazione</h3>
+        <p class="text-sm" style="color:#9aa6ad">Nebulizzazione di principi attivi PMC autorizzati. Trattamento batteriostatico residuale.</p>
+      </div>
+      <div class="card-dark">
+        <div class="step-num">04</div>
+        <h3 class="text-xl mt-4 mb-3 display">Verifica</h3>
+        <p class="text-sm" style="color:#9aa6ad">Ispezione post-intervento documentata. Rilascio attestato e piano di mantenimento.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Galleria attrezzature -->
+  <section class="section">
+    <p class="kicker mb-4 text-center">Strumentazione</p>
+    <h2 class="h-section text-center mb-12">Macchine. Misurabili.</h2>
+    <div class="grid-3">
+      <div>
+        <div style="aspect-ratio: 4/3; background-image: url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1200&q=80'); background-size: cover; background-position: center;"></div>
+        <p class="kicker mt-4">Robot videoispezione</p>
+        <p class="lead mt-2 text-sm">Telecamere FullHD, brandeggio 360°, illuminazione LED 30W.</p>
+      </div>
+      <div>
+        <div style="aspect-ratio: 4/3; background-image: url('https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=1200&q=80'); background-size: cover; background-position: center;"></div>
+        <p class="kicker mt-4">Aspiratori HEPA H13</p>
+        <p class="lead mt-2 text-sm">Filtrazione 99,95%, depressione fino a 25.000 Pa.</p>
+      </div>
+      <div>
+        <div style="aspect-ratio: 4/3; background-image: url('https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=1200&q=80'); background-size: cover; background-position: center;"></div>
+        <p class="kicker mt-4">Nebulizzatori ULV</p>
+        <p class="lead mt-2 text-sm">Gocce 5-50 micron, copertura uniforme su qualsiasi geometria.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Caso Bologna -->
+  <section class="section section-narrow">
+    <p class="kicker mb-4">Caso Bologna · Anonimizzato</p>
+    <h2 class="h-section mb-8">Clinica privata, 1.800 mq,<br/>tre UTA datate 2014.</h2>
+    <p class="lead mb-6">Sopralluogo richiesto dalla direzione sanitaria dopo segnalazione di odori in sala d'attesa. Videoispezione iniziale: accumulo significativo di particolato fine, presenza di biofilm sulle batterie di scambio.</p>
+    <p class="lead mb-6">Intervento in tre giornate non lavorative. Bonifica meccanica completa, sanificazione PMC, sostituzione filtrazione. Ispezione post-intervento documentata.</p>
+    <p class="text-sm" style="color:#7FB8C9; font-style: italic;">Cliente in NDA. Referenza disponibile su richiesta diretta del committente.</p>
+  </section>
+
+  <!-- Scienza -->
+  <section class="section">
+    <p class="kicker mb-4 text-center">Scienza</p>
+    <h2 class="h-section text-center mb-12">Cosa contiene un'aria non sanificata.</h2>
+    <div class="grid-3">
+      <div class="card-dark">
+        <h3 class="display text-2xl mb-3">Biofilm</h3>
+        <p class="text-sm" style="color:#9aa6ad">Comunità microbica protetta da matrice polimerica. Resistente alla pulizia di superficie. Richiede aggressione meccanica + chimica.</p>
+      </div>
+      <div class="card-dark">
+        <h3 class="display text-2xl mb-3">PM2.5 / PM10</h3>
+        <p class="text-sm" style="color:#9aa6ad">Particolato fine inalabile. Penetra alveoli polmonari. Concentrazione interna spesso 2-5x superiore a quella esterna.</p>
+      </div>
+      <div class="card-dark">
+        <h3 class="display text-2xl mb-3">Spore fungine</h3>
+        <p class="text-sm" style="color:#9aa6ad">Aspergillus, Penicillium, Cladosporium. Trovano in condotte umide condizioni ideali. Innescano reazioni allergiche e respiratorie.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Certificazioni -->
+  <section class="section section-narrow text-center">
+    <p class="kicker mb-4">Certificazioni</p>
+    <h2 class="h-section mb-8">FGAS · ACCREDIA</h2>
+    <div class="grid-2 max-w-2xl mx-auto">
+      <div class="card-dark">
+        <p class="display text-3xl accent mb-2">FGAS</p>
+        <p class="text-sm" style="color:#9aa6ad">Certificazione per la manipolazione dei gas fluorurati a effetto serra.</p>
+      </div>
+      <div class="card-dark">
+        <p class="display text-3xl accent mb-2">ACCREDIA</p>
+        <p class="text-sm" style="color:#9aa6ad">Conformità di processo, accreditamento dell'ente nazionale italiano.</p>
+      </div>
+    </div>
+    <p class="text-xs mt-6" style="color:#7FB8C9; font-style: italic;">Attestati disponibili su richiesta del cliente.</p>
+  </section>
+
+  <!-- Settori -->
+  <section class="section">
+    <p class="kicker mb-4 text-center">Settori serviti</p>
+    <h2 class="h-section text-center mb-12">Dove respira meglio chi lavora.</h2>
+    <div class="grid-3">
+      <div class="card-dark"><h3 class="display text-2xl mb-3">Cliniche</h3><p class="text-sm" style="color:#9aa6ad">Sale operatorie, ambulatori, RSA. Compliance D.Lgs. 81/2008.</p><a href="#contatti-aether" class="accent text-sm mt-3 inline-block">Sopralluogo cliniche →</a></div>
+      <div class="card-dark"><h3 class="display text-2xl mb-3">Uffici</h3><p class="text-sm" style="color:#9aa6ad">Ambienti densi, ricircolo elevato. Riduce assenteismo per malattie respiratorie.</p><a href="#contatti-aether" class="accent text-sm mt-3 inline-block">Sopralluogo uffici →</a></div>
+      <div class="card-dark"><h3 class="display text-2xl mb-3">HoReCa</h3><p class="text-sm" style="color:#9aa6ad">Hotel, ristoranti, B&B. Cucine, sale comuni, camere. HACCP-aware.</p><a href="#contatti-aether" class="accent text-sm mt-3 inline-block">Sopralluogo HoReCa →</a></div>
+      <div class="card-dark"><h3 class="display text-2xl mb-3">Scuole</h3><p class="text-sm" style="color:#9aa6ad">Ricambio d'aria normato. Tutela soggetti pediatrici sensibili.</p><a href="#contatti-aether" class="accent text-sm mt-3 inline-block">Sopralluogo scuole →</a></div>
+      <div class="card-dark"><h3 class="display text-2xl mb-3">Industria</h3><p class="text-sm" style="color:#9aa6ad">Capannoni produttivi, magazzini. Polveri di processo, fumi tecnici.</p><a href="#contatti-aether" class="accent text-sm mt-3 inline-block">Sopralluogo industria →</a></div>
+      <div class="card-dark"><h3 class="display text-2xl mb-3">Residenziale</h3><p class="text-sm" style="color:#9aa6ad">Condomini, ville, mansarde. VMC e split. Allergici, pet, neonati.</p><a href="#contatti-aether" class="accent text-sm mt-3 inline-block">Sopralluogo residenziale →</a></div>
+    </div>
+  </section>
+
+  <!-- Listino -->
+  <section id="listino-aether" class="section section-narrow">
+    <p class="kicker mb-4 text-center">Listino indicativo</p>
+    <h2 class="h-section text-center mb-4">Trasparenza prima del sopralluogo.</h2>
+    <p class="lead text-center mb-12 max-w-2xl mx-auto">Le seguenti fasce sono indicative. Il preventivo personalizzato viene redatto al termine del sopralluogo gratuito.</p>
+    <div class="space-y-4">
+      <div class="card-dark flex justify-between items-center flex-wrap gap-4">
+        <div><p class="display text-xl">Check-up impianto</p><p class="text-sm" style="color:#9aa6ad">Videoispezione + relazione fotografica</p></div>
+        <p class="display text-2xl accent">Gratuito</p>
+      </div>
+      <div class="card-dark flex justify-between items-center flex-wrap gap-4">
+        <div><p class="display text-xl">Sanificazione condotte residenziali</p><p class="text-sm" style="color:#9aa6ad">VMC / split, fino a 150 mq</p></div>
+        <p class="display text-2xl accent">€ 380 — 850</p>
+      </div>
+      <div class="card-dark flex justify-between items-center flex-wrap gap-4">
+        <div><p class="display text-xl">Sanificazione uffici / studi</p><p class="text-sm" style="color:#9aa6ad">UTA singola, 200-600 mq</p></div>
+        <p class="display text-2xl accent">€ 1.200 — 3.400</p>
+      </div>
+      <div class="card-dark flex justify-between items-center flex-wrap gap-4">
+        <div><p class="display text-xl">Sanificazione cliniche / hotel</p><p class="text-sm" style="color:#9aa6ad">Multi-UTA, ≥800 mq, certificata</p></div>
+        <p class="display text-2xl accent">€ 3.800 — 9.500</p>
+      </div>
+      <div class="card-dark flex justify-between items-center flex-wrap gap-4">
+        <div><p class="display text-xl">Filtri elettrostatici</p><p class="text-sm" style="color:#9aa6ad">Fornitura + posa</p></div>
+        <p class="display text-2xl accent">Su misura</p>
+      </div>
+    </div>
+    <p class="text-xs mt-6 text-center" style="color:#7FB8C9; font-style: italic;">Listino indicativo. Preventivo personalizzato dopo sopralluogo gratuito.</p>
+  </section>
+
+  <!-- Founder -->
+  <section class="section section-narrow">
+    <p class="kicker mb-4">Il fondatore</p>
+    <h2 class="h-section mb-8">Alex.<br/>Trent'anni dentro le condotte.</h2>
+    <p class="lead mb-4">Ariapura è un'azienda a conduzione tecnica. Alex segue personalmente i sopralluoghi più complessi e firma le relazioni d'intervento. Trent'anni di esperienza significa avere visto le UTA degli anni '90, i guasti ricorrenti, e i protocolli che funzionano davvero.</p>
+    <p class="text-sm italic" style="color:#7FB8C9;">Ritratto del fondatore disponibile dopo sopralluogo. Cognome verificato in fase di contratto.</p>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section-narrow">
+    <p class="kicker mb-4 text-center">Domande frequenti</p>
+    <h2 class="h-section text-center mb-12">FAQ</h2>
+    <div class="space-y-4">
+      <details class="card-dark"><summary class="flex justify-between items-center"><span class="display text-xl">Ogni quanto va sanificato un impianto?</span><span class="icn accent text-2xl">+</span></summary><p class="lead mt-4">Sanitario: 12 mesi · Ricettivo: 12 mesi · Uffici: 24 mesi · Residenziale: 36 mesi. Il check-up gratuito stabilisce il piano corretto.</p></details>
+      <details class="card-dark"><summary class="flex justify-between items-center"><span class="display text-xl">Il sopralluogo è davvero gratuito?</span><span class="icn accent text-2xl">+</span></summary><p class="lead mt-4">Sì. Provincia di Bologna e zone limitrofe. Preventivo scritto entro 48 ore, senza alcun impegno.</p></details>
+      <details class="card-dark"><summary class="flex justify-between items-center"><span class="display text-xl">Quale normativa regola il settore?</span><span class="icn accent text-2xl">+</span></summary><p class="lead mt-4">D.Lgs. 81/2008 art. 64 e Accordo Stato-Regioni del 7 febbraio 2013. Operiamo nel pieno rispetto di entrambi.</p></details>
+      <details class="card-dark"><summary class="flex justify-between items-center"><span class="display text-xl">Cosa significa la garanzia di intervento ripetuto?</span><span class="icn accent text-2xl">+</span></summary><p class="lead mt-4">Se al termine dell'intervento il risultato non rispetta lo standard concordato, torniamo gratuitamente.</p></details>
+      <details class="card-dark"><summary class="flex justify-between items-center"><span class="display text-xl">Lavorate fuori da Bologna?</span><span class="icn accent text-2xl">+</span></summary><p class="lead mt-4">Sì: Modena, Ferrara, Imola e provincia. Per altre province, contattateci per fattibilità.</p></details>
+    </div>
+  </section>
+
+  <!-- CTA / Form -->
+  <section id="contatti-aether" class="section section-narrow">
+    <div class="card-dark">
+      <p class="kicker mb-4">Sopralluogo gratuito</p>
+      <h2 class="h-section mb-4">Prenoti il sopralluogo.</h2>
+      <p class="lead mb-8">Richiamiamo entro 24 ore lavorative.</p>
+      <form action="https://api.web3forms.com/submit" method="POST" class="space-y-4">
+        <input type="hidden" name="access_key" value="REPLACE_WITH_WEB3FORMS_KEY" />
+        <input type="hidden" name="subject" value="Ariapura · Sopralluogo · V1 Aether" />
+        <div class="form-row">
+          <input type="text" name="nome" placeholder="Nome e cognome *" required />
+          <input type="text" name="azienda" placeholder="Azienda / struttura" />
+        </div>
+        <div class="form-row">
+          <input type="email" name="email" placeholder="Email *" required />
+          <input type="tel" name="telefono" placeholder="Telefono *" required />
+        </div>
+        <select name="settore" required>
+          <option value="">Settore *</option>
+          <option>Clinica / RSA</option>
+          <option>Ufficio</option>
+          <option>HoReCa (hotel/ristorante/B&B)</option>
+          <option>Scuola</option>
+          <option>Industria</option>
+          <option>Residenziale</option>
+        </select>
+        <textarea name="messaggio" rows="4" placeholder="Descriva brevemente l'impianto (opzionale)"></textarea>
+        <button type="submit" class="cta-primary w-full">Prenoti il Sopralluogo Gratuito</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="section text-center" style="padding-top: 60px; padding-bottom: 60px;">
+    <p class="brand-mark mb-3" style="color:#7FB8C9">ARIAPURA</p>
+    <p class="text-sm" style="color:#9aa6ad">Via Lame 261, Castel Maggiore (BO) · +39 051 0828717 · info@ariapura.org</p>
+    <p class="text-sm mt-2" style="color:#9aa6ad">Lun-Ven 09:00-13:00 / 14:30-17:30 · Sab-Dom su appuntamento</p>
+    <p class="text-xs mt-6" style="color:#666">© 2026 Ariapura · P.IVA da confermare · Cookie tecnici essenziali</p>
+  </footer>
+</main>
+
+<!-- ============================================================ -->
+<!-- V2 SOLOMEO -->
+<!-- ============================================================ -->
+<main class="variant v-solomeo">
+
+  <header class="topbar">
+    <div class="brand-mark">Ariapura</div>
+    <div class="flex items-center gap-6">
+      <a href="tel:+390510828717" class="text-sm" style="font-family: 'Manrope', sans-serif; letter-spacing: 0.06em;">+39 051 0828717</a>
+      <a href="#contatti-solomeo" class="cta-secondary">Sopralluogo</a>
+    </div>
+  </header>
+
+  <section class="hero-solomeo">
+    <div class="hero-overlay">
+      <div class="hero-content">
+        <p class="kicker mb-6" style="color:#C9B79C;">Bologna · Da oltre 30 anni</p>
+        <h1 class="h-display">L'aria che merita<br/>la Sua azienda.</h1>
+        <p class="lead mt-8 max-w-2xl" style="color:#E4DCC8;">Sanificazione condotte aerauliche con la cura artigiana che da oltre 30 anni distingue Bologna.</p>
+        <div class="mt-10 flex flex-wrap gap-6 items-center">
+          <a href="#contatti-solomeo" class="cta-primary">Prenoti il Sopralluogo Gratuito</a>
+          <a href="#listino-solomeo" class="cta-secondary" style="color:#F5EFE4; border-color:#C9B79C;">Vedere il Listino Indicativo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lettera del fondatore -->
+  <section class="section section-narrow">
+    <p class="kicker mb-4">Lettera del fondatore</p>
+    <h2 class="h-section h-section-italic mb-8">«Ho imparato l'aria<br/>nelle condotte di Bologna.»</h2>
+    <div class="lead space-y-4" style="font-family: 'Cormorant Garamond', serif; font-size: 22px; line-height: 1.55;">
+      <p>Trent'anni fa entravo in officina con un nastro metrico e una torcia. Le condotte non erano ancora un mestiere, erano un fastidio.</p>
+      <p>Oggi Ariapura è una piccola squadra che ha fatto della sanificazione aeraulica un atto di precisione. Trattiamo ogni impianto come un organismo: lo ascoltiamo, lo misuriamo, e lo restituiamo al cliente in condizioni che possa documentare.</p>
+      <p>Il sopralluogo è gratuito. La garanzia è semplice: se non è soddisfatto, ripetiamo l'intervento.</p>
+      <p class="mt-6" style="font-family:'Manrope', sans-serif; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; color:#8C6F4B;">Alex — Fondatore</p>
+    </div>
+  </section>
+
+  <!-- Eredità timeline -->
+  <section class="section">
+    <div class="grid-2">
+      <div>
+        <p class="kicker mb-4">Eredità</p>
+        <h2 class="h-section h-section-italic">Tre decenni,<br/>un solo mestiere.</h2>
+      </div>
+      <div class="space-y-2">
+        <div class="timeline-item"><p class="kicker mb-1">1995</p><p class="lead">Prima sede a Castel Maggiore. Manutenzione condizionatori commerciali.</p></div>
+        <div class="timeline-item"><p class="kicker mb-1">2003</p><p class="lead">Estensione alla sanificazione aeraulica. Primi sopralluoghi in cliniche bolognesi.</p></div>
+        <div class="timeline-item"><p class="kicker mb-1">2010</p><p class="lead">Certificazione FGAS. Investimento su robot di videoispezione.</p></div>
+        <div class="timeline-item"><p class="kicker mb-1">2018</p><p class="lead">Conformità ACCREDIA. Apertura settore HoReCa.</p></div>
+        <div class="timeline-item"><p class="kicker mb-1">2026</p><p class="lead">Settori dedicati: cliniche, scuole, hotel storici, industria.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Metodologia -->
+  <section class="section">
+    <p class="kicker mb-4 text-center">Metodologia</p>
+    <h2 class="h-section h-section-italic text-center mb-12">Quattro tempi.</h2>
+    <div class="grid-2">
+      <div class="card-paper"><p class="display text-5xl accent mb-3">I</p><h3 class="display text-3xl mb-3">Ispezione</h3><p>Videoispezione robotizzata. Mappa fotografica dello stato di partenza, condivisa con il committente prima di ogni decisione.</p></div>
+      <div class="card-paper"><p class="display text-5xl accent mb-3">II</p><h3 class="display text-3xl mb-3">Bonifica</h3><p>Spazzole rotanti dimensionate sulla geometria della condotta, aspirazione HEPA H13. Distacco e rimozione del particolato in continuo.</p></div>
+      <div class="card-paper"><p class="display text-5xl accent mb-3">III</p><h3 class="display text-3xl mb-3">Sanificazione</h3><p>Nebulizzazione di principi attivi PMC autorizzati per uso aeraulico. Effetto residuale batteriostatico documentato.</p></div>
+      <div class="card-paper"><p class="display text-5xl accent mb-3">IV</p><h3 class="display text-3xl mb-3">Verifica</h3><p>Ispezione conclusiva, attestato firmato e piano di mantenimento personalizzato sull'uso reale dell'impianto.</p></div>
+    </div>
+  </section>
+
+  <!-- Ritrattistica attrezzature -->
+  <section class="section">
+    <p class="kicker mb-4 text-center">Ritrattistica</p>
+    <h2 class="h-section h-section-italic text-center mb-12">Strumenti del mestiere.</h2>
+    <div class="grid-3">
+      <div><div style="aspect-ratio:3/4; background-image:url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1200&q=80'); background-size:cover; background-position:center;"></div><p class="kicker mt-4">Robot</p><p class="display text-xl">Videoispezione FullHD</p></div>
+      <div><div style="aspect-ratio:3/4; background-image:url('https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=1200&q=80'); background-size:cover; background-position:center;"></div><p class="kicker mt-4">Aspirazione</p><p class="display text-xl">HEPA H13 industriale</p></div>
+      <div><div style="aspect-ratio:3/4; background-image:url('https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=1200&q=80'); background-size:cover; background-position:center;"></div><p class="kicker mt-4">Nebulizzazione</p><p class="display text-xl">ULV a freddo</p></div>
+    </div>
+  </section>
+
+  <!-- Atelier cliente / Caso -->
+  <section class="section section-narrow">
+    <p class="kicker mb-4">L'atelier del cliente · Caso anonimizzato</p>
+    <h2 class="h-section h-section-italic mb-8">Hotel 4 stelle, centro storico.<br/>Sei piani, tre UTA, una storia.</h2>
+    <p class="lead mb-4" style="font-family: 'Cormorant Garamond', serif; font-size: 22px; line-height: 1.55;">Il direttore segnala odori in lobby. Tre giornate di lavoro notturno, condotte ispezionate metro per metro, biofilm rimosso con tecnica meccanica + chimica conforme.</p>
+    <p class="lead mb-4" style="font-family: 'Cormorant Garamond', serif; font-size: 22px; line-height: 1.55;">Risultato: lobby restituita con aria neutra, recensioni TripAdvisor stabilizzate sopra 4.5. Documentazione fotografica conservata per audit assicurativo.</p>
+    <p class="text-sm italic mt-6 accent">Cliente in NDA. Referenza diretta su richiesta del committente.</p>
+  </section>
+
+  <!-- Standard -->
+  <section class="section">
+    <div class="grid-2">
+      <div>
+        <p class="kicker mb-4">Standard di sanificazione</p>
+        <h2 class="h-section h-section-italic">Norme che scriviamo<br/>nei contratti.</h2>
+      </div>
+      <div class="space-y-4">
+        <div class="card-paper"><p class="display text-xl mb-2">D.Lgs. 81/2008 art. 64</p><p class="lead text-sm">Salute e sicurezza nei luoghi di lavoro: obbligo manutenzione impianti aeraulici.</p></div>
+        <div class="card-paper"><p class="display text-xl mb-2">Accordo Stato-Regioni 2013</p><p class="lead text-sm">Criteri tecnici di pulizia e manutenzione degli impianti aeraulici.</p></div>
+        <div class="card-paper"><p class="display text-xl mb-2">UNI 13779 / 15780</p><p class="lead text-sm">Riferimenti tecnici europei sulla qualità dell'aria interna.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mappa territorio -->
+  <section class="section section-narrow text-center">
+    <p class="kicker mb-4">Territorio servito</p>
+    <h2 class="h-section h-section-italic mb-8">Bologna e l'Emilia.</h2>
+    <p class="lead mb-8">Bologna · Modena · Ferrara · Imola · Castel Maggiore · San Lazzaro · Casalecchio · Zola Predosa.<br/>Per altre città dell'Emilia-Romagna, contattateci per fattibilità.</p>
+    <div class="grid-3">
+      <div><p class="display text-3xl accent">25 km</p><p class="kicker mt-2">Provincia BO</p></div>
+      <div><p class="display text-3xl accent">60 km</p><p class="kicker mt-2">Modena · Ferrara</p></div>
+      <div><p class="display text-3xl accent">90 km</p><p class="kicker mt-2">Imola · Ravenna</p></div>
+    </div>
+  </section>
+
+  <!-- Settori -->
+  <section class="section">
+    <p class="kicker mb-4 text-center">Settori serviti</p>
+    <h2 class="h-section h-section-italic text-center mb-12">Sei mondi, un metodo.</h2>
+    <div class="grid-3">
+      <div class="card-paper"><h3 class="display text-2xl mb-3">Cliniche</h3><p>Sale operatorie, ambulatori, RSA. Compliance D.Lgs. 81.</p><a href="#contatti-solomeo" class="cta-secondary mt-4">Sopralluogo cliniche</a></div>
+      <div class="card-paper"><h3 class="display text-2xl mb-3">Uffici</h3><p>Densità elevata, ricambio aria normato.</p><a href="#contatti-solomeo" class="cta-secondary mt-4">Sopralluogo uffici</a></div>
+      <div class="card-paper"><h3 class="display text-2xl mb-3">HoReCa</h3><p>Hotel storici, ristoranti, B&B. Cucina + sale comuni.</p><a href="#contatti-solomeo" class="cta-secondary mt-4">Sopralluogo HoReCa</a></div>
+      <div class="card-paper"><h3 class="display text-2xl mb-3">Scuole</h3><p>Aule, palestre, mense. Soggetti pediatrici sensibili.</p><a href="#contatti-solomeo" class="cta-secondary mt-4">Sopralluogo scuole</a></div>
+      <div class="card-paper"><h3 class="display text-2xl mb-3">Industria</h3><p>Capannoni, magazzini. Polveri, fumi, ricircolo.</p><a href="#contatti-solomeo" class="cta-secondary mt-4">Sopralluogo industria</a></div>
+      <div class="card-paper"><h3 class="display text-2xl mb-3">Residenziale</h3><p>VMC, split. Allergici, pet, neonati.</p><a href="#contatti-solomeo" class="cta-secondary mt-4">Sopralluogo casa</a></div>
+    </div>
+  </section>
+
+  <!-- Listino -->
+  <section id="listino-solomeo" class="section section-narrow">
+    <p class="kicker mb-4 text-center">Listino indicativo</p>
+    <h2 class="h-section h-section-italic text-center mb-4">Trasparenza.</h2>
+    <p class="lead text-center mb-12">Fasce indicative. Preventivo personalizzato dopo il sopralluogo gratuito.</p>
+    <div class="space-y-3">
+      <div class="card-paper flex justify-between flex-wrap gap-4"><div><p class="display text-2xl">Check-up impianto</p><p class="text-sm" style="color:#8C6F4B">Videoispezione + relazione fotografica</p></div><p class="display text-2xl accent">Gratuito</p></div>
+      <div class="card-paper flex justify-between flex-wrap gap-4"><div><p class="display text-2xl">Sanificazione residenziale</p><p class="text-sm" style="color:#8C6F4B">VMC / split, fino a 150 mq</p></div><p class="display text-2xl accent">€ 380 — 850</p></div>
+      <div class="card-paper flex justify-between flex-wrap gap-4"><div><p class="display text-2xl">Sanificazione uffici</p><p class="text-sm" style="color:#8C6F4B">UTA singola, 200-600 mq</p></div><p class="display text-2xl accent">€ 1.200 — 3.400</p></div>
+      <div class="card-paper flex justify-between flex-wrap gap-4"><div><p class="display text-2xl">Sanificazione cliniche / hotel</p><p class="text-sm" style="color:#8C6F4B">Multi-UTA, ≥800 mq, certificata</p></div><p class="display text-2xl accent">€ 3.800 — 9.500</p></div>
+      <div class="card-paper flex justify-between flex-wrap gap-4"><div><p class="display text-2xl">Filtri elettrostatici</p><p class="text-sm" style="color:#8C6F4B">Fornitura + posa</p></div><p class="display text-2xl accent">Su misura</p></div>
+    </div>
+    <p class="text-xs mt-6 text-center italic accent">Listino indicativo. Preventivo personalizzato dopo sopralluogo.</p>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section-narrow">
+    <p class="kicker mb-4 text-center">Domande frequenti</p>
+    <h2 class="h-section h-section-italic text-center mb-12">FAQ</h2>
+    <div class="space-y-4">
+      <details class="card-paper"><summary class="flex justify-between items-center"><span class="display text-2xl">Ogni quanto va sanificato un impianto?</span><span class="icn accent text-2xl">+</span></summary><p class="lead mt-4">Sanitario/ricettivo: 12 mesi · Uffici: 24 mesi · Residenziale: 36 mesi.</p></details>
+      <details class="card-paper"><summary class="flex justify-between items-center"><span class="display text-2xl">Il sopralluogo è gratuito?</span><span class="icn accent text-2xl">+</span></summary><p class="lead mt-4">Sì, su provincia di Bologna e zone limitrofe. Preventivo entro 48 ore senza impegno.</p></details>
+      <details class="card-paper"><summary class="flex justify-between items-center"><span class="display text-2xl">Quale normativa regola il settore?</span><span class="icn accent text-2xl">+</span></summary><p class="lead mt-4">D.Lgs. 81/2008 art. 64 e Accordo Stato-Regioni del 7 febbraio 2013.</p></details>
+      <details class="card-paper"><summary class="flex justify-between items-center"><span class="display text-2xl">Cosa garantite?</span><span class="icn accent text-2xl">+</span></summary><p class="lead mt-4">Se il risultato non rispetta lo standard concordato, ripetiamo l'intervento gratuitamente.</p></details>
+    </div>
+  </section>
+
+  <!-- Form -->
+  <section id="contatti-solomeo" class="section section-narrow">
+    <div class="card-paper">
+      <p class="kicker mb-4">Sopralluogo gratuito</p>
+      <h2 class="h-section h-section-italic mb-4">Si scriva.</h2>
+      <p class="lead mb-8">Risposta entro 24 ore lavorative.</p>
+      <form action="https://api.web3forms.com/submit" method="POST" class="space-y-4">
+        <input type="hidden" name="access_key" value="REPLACE_WITH_WEB3FORMS_KEY" />
+        <input type="hidden" name="subject" value="Ariapura · Sopralluogo · V2 Solomeo" />
+        <div class="form-row">
+          <input type="text" name="nome" placeholder="Nome e cognome *" required />
+          <input type="text" name="azienda" placeholder="Azienda / struttura" />
+        </div>
+        <div class="form-row">
+          <input type="email" name="email" placeholder="Email *" required />
+          <input type="tel" name="telefono" placeholder="Telefono *" required />
+        </div>
+        <textarea name="messaggio" rows="4" placeholder="Descriva brevemente l'impianto"></textarea>
+        <button type="submit" class="cta-primary w-full">Prenoti il Sopralluogo Gratuito</button>
+      </form>
+    </div>
+  </section>
+
+  <footer style="background:#2B2620; color:#F5EFE4; padding: 60px 40px; text-align:center;">
+    <p class="display text-3xl mb-3" style="font-style:italic;">Ariapura</p>
+    <p class="text-sm" style="color:#C9B79C;">Via Lame 261, Castel Maggiore (BO) · +39 051 0828717 · info@ariapura.org</p>
+    <p class="text-sm mt-2" style="color:#C9B79C;">Lun-Ven 09:00-13:00 / 14:30-17:30 · Sab-Dom su appuntamento</p>
+    <p class="text-xs mt-6" style="color:#8C6F4B;">© 2026 Ariapura · P.IVA da confermare · Cookie tecnici essenziali</p>
+  </footer>
+</main>
+
+<!-- ============================================================ -->
+<!-- V3 CLEANROOM -->
+<!-- ============================================================ -->
+<main class="variant v-cleanroom">
+
+  <header class="topbar">
+    <div class="brand-mark">[ ARIAPURA ] · BONIFICA AERAULICA</div>
+    <div class="flex items-center gap-4">
+      <span class="badge">FGAS</span>
+      <span class="badge">ACCREDIA</span>
+      <a href="tel:+390510828717" class="text-xs" style="letter-spacing:0.1em;">+39 051 0828717</a>
+    </div>
+  </header>
+
+  <section class="hero-cleanroom">
+    <div class="hero-overlay">
+      <div class="hero-content">
+        <p class="kicker kicker-accent mb-6">// PROTOCOLLO V4 · BOLOGNA</p>
+        <h1 class="h-display">PROTOCOLLO 4-STEP.<br/>ARIA CERTIFICATA.</h1>
+        <p class="lead lead-light mt-8 max-w-3xl">Bonifica aeraulica conforme D.Lgs. 81/2008 art. 64 + Accordo Stato-Regioni 2013. Videoispezione, bonifica meccanica HEPA H13, sanificazione PMC, attestato.</p>
+        <div class="mt-10 flex flex-wrap gap-4">
+          <a href="#contatti-cr" class="cta-primary" style="background:#A6E0D2; color:#0E0E10;">→ PRENOTI IL SOPRALLUOGO GRATUITO</a>
+          <a href="#listino-cr" class="cta-secondary" style="border-color:#FAFAFA; color:#FAFAFA;">VEDERE IL LISTINO INDICATIVO</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Brief patogeni -->
+  <section class="section">
+    <p class="kicker mb-4">// 01 — RISCHIO BIOLOGICO IMPIANTI HVAC</p>
+    <h2 class="h-section mb-12">Cosa transita in una condotta non sanificata.</h2>
+    <div class="grid-3">
+      <div class="spec-card"><p class="spec-num">PT.001</p><h3 class="display text-2xl mt-2 mb-3">Muffe</h3><p class="lead">Aspergillus, Penicillium, Cladosporium. Sviluppo su superfici umide. Concentrazioni interne 2-5x più alte dell'esterno in impianti non manutenuti.</p></div>
+      <div class="spec-card"><p class="spec-num">PT.002</p><h3 class="display text-2xl mt-2 mb-3">Biofilm</h3><p class="lead">Matrice polimerica protettiva. Resistente alla pulizia di superficie. Richiede aggressione meccanica + chimica simultanea.</p></div>
+      <div class="spec-card"><p class="spec-num">PT.003</p><h3 class="display text-2xl mt-2 mb-3">PM2.5/PM10</h3><p class="lead">Particolato fine inalabile. Penetra a livello alveolare. Trasporto attivo via condotta in tutto l'edificio.</p></div>
+    </div>
+  </section>
+
+  <!-- Protocollo numbered -->
+  <section class="section">
+    <p class="kicker mb-4">// 02 — PROTOCOLLO INTERVENTO</p>
+    <h2 class="h-section mb-12">Quattro step. Documentati uno per uno.</h2>
+    <div class="space-y-3">
+      <div class="spec-card grid grid-cols-12 gap-4 items-start">
+        <div class="col-span-12 md:col-span-2"><p class="spec-num">STEP.01</p><p class="display text-3xl">/01</p></div>
+        <div class="col-span-12 md:col-span-7"><h3 class="display text-2xl mb-2">Videoispezione robotizzata</h3><p class="lead">Robot brandeggiabile, telecamera FullHD, illuminazione LED 30W. Mappatura punti critici, calcolo carico polveri, restituzione fotografica.</p></div>
+        <div class="col-span-12 md:col-span-3"><p class="spec-num">DURATA</p><p class="display text-xl">2-6 h</p></div>
+      </div>
+      <div class="spec-card grid grid-cols-12 gap-4 items-start">
+        <div class="col-span-12 md:col-span-2"><p class="spec-num">STEP.02</p><p class="display text-3xl">/02</p></div>
+        <div class="col-span-12 md:col-span-7"><h3 class="display text-2xl mb-2">Bonifica meccanica HEPA H13</h3><p class="lead">Spazzole rotanti dimensionate, aspirazione 25.000 Pa, filtrazione 99,95%. Distacco e rimozione del particolato in continuo, senza dispersione.</p></div>
+        <div class="col-span-12 md:col-span-3"><p class="spec-num">DURATA</p><p class="display text-xl">1-3 gg</p></div>
+      </div>
+      <div class="spec-card grid grid-cols-12 gap-4 items-start">
+        <div class="col-span-12 md:col-span-2"><p class="spec-num">STEP.03</p><p class="display text-3xl">/03</p></div>
+        <div class="col-span-12 md:col-span-7"><h3 class="display text-2xl mb-2">Sanificazione PMC</h3><p class="lead">Nebulizzazione ULV. Principi attivi PMC autorizzati per uso aeraulico (Min. Salute). Effetto residuale batteriostatico documentato.</p></div>
+        <div class="col-span-12 md:col-span-3"><p class="spec-num">DURATA</p><p class="display text-xl">3-8 h</p></div>
+      </div>
+      <div class="spec-card grid grid-cols-12 gap-4 items-start">
+        <div class="col-span-12 md:col-span-2"><p class="spec-num">STEP.04</p><p class="display text-3xl">/04</p></div>
+        <div class="col-span-12 md:col-span-7"><h3 class="display text-2xl mb-2">Verifica + attestato</h3><p class="lead">Ispezione conclusiva, dossier fotografico, attestato firmato, piano di mantenimento. Documentazione conforme audit assicurativo.</p></div>
+        <div class="col-span-12 md:col-span-3"><p class="spec-num">DURATA</p><p class="display text-xl">1-2 h</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Specifiche attrezzature -->
+  <section class="section">
+    <p class="kicker mb-4">// 03 — SPECIFICHE ATTREZZATURE</p>
+    <h2 class="h-section mb-12">Stack operativo.</h2>
+    <div class="grid-4">
+      <div class="spec-card"><p class="spec-num">EQ.01</p><p class="display text-xl mt-2">Robot inspect.</p><p class="lead text-xs mt-3">Telecamera FullHD 360°<br/>LED 30W<br/>Brandeggio motorizzato</p></div>
+      <div class="spec-card"><p class="spec-num">EQ.02</p><p class="display text-xl mt-2">Aspiratori HEPA</p><p class="lead text-xs mt-3">Filtrazione 99,95%<br/>Depressione 25.000 Pa<br/>Filtro H13 certificato</p></div>
+      <div class="spec-card"><p class="spec-num">EQ.03</p><p class="display text-xl mt-2">Spazzole rotanti</p><p class="lead text-xs mt-3">Diametro 100-1200 mm<br/>RPM regolabile<br/>Setole nylon/acciaio</p></div>
+      <div class="spec-card"><p class="spec-num">EQ.04</p><p class="display text-xl mt-2">Nebulizz. ULV</p><p class="lead text-xs mt-3">Gocce 5-50 µm<br/>Copertura uniforme<br/>PMC autorizzati</p></div>
+    </div>
+  </section>
+
+  <!-- Dati test -->
+  <section class="section section-narrow">
+    <p class="kicker mb-4">// 04 — TEST PRE/POST · CASO ANONIMIZZATO</p>
+    <h2 class="h-section mb-8">Clinica privata Bologna.<br/>1.800 mq, 3 UTA.</h2>
+    <p class="lead mb-8">Misure indicative pre/post intervento. Dati derivati da relazione tecnica di cantiere. Cliente in NDA.</p>
+    <div class="grid-3">
+      <div class="spec-card"><p class="spec-num">METRICA</p><p class="display text-xl mt-2">Carico polveri</p><p class="display text-3xl accent mt-3">−92%</p><p class="lead text-xs mt-2">indicativo, post-bonifica meccanica</p></div>
+      <div class="spec-card"><p class="spec-num">METRICA</p><p class="display text-xl mt-2">Carica batterica</p><p class="display text-3xl accent mt-3">−97%</p><p class="lead text-xs mt-2">indicativo, post-sanificazione PMC</p></div>
+      <div class="spec-card"><p class="spec-num">METRICA</p><p class="display text-xl mt-2">Efficienza UTA</p><p class="display text-3xl accent mt-3">+18%</p><p class="lead text-xs mt-2">consumo elettrico, mese successivo</p></div>
+    </div>
+    <p class="lead text-xs mt-6 italic">Disclaimer: dati indicativi del singolo cantiere. Risultati variabili in base allo stato di partenza dell'impianto.</p>
+  </section>
+
+  <!-- Compliance normativa -->
+  <section class="section">
+    <p class="kicker mb-4">// 05 — COMPLIANCE</p>
+    <h2 class="h-section mb-12">Riferimenti normativi.</h2>
+    <div class="grid-2">
+      <div class="spec-card"><p class="spec-num">NORMATIVA</p><h3 class="display text-2xl mt-2">D.Lgs. 81/2008 art. 64</h3><p class="lead mt-3">Salute e sicurezza nei luoghi di lavoro. Obbligo del datore di lavoro alla manutenzione degli impianti aeraulici.</p></div>
+      <div class="spec-card"><p class="spec-num">NORMATIVA</p><h3 class="display text-2xl mt-2">Accordo Stato-Regioni 2013</h3><p class="lead mt-3">7 febbraio 2013. Criteri tecnici per pulizia e manutenzione impianti aeraulici a fini igienico-sanitari.</p></div>
+      <div class="spec-card"><p class="spec-num">CERTIFICAZIONE</p><h3 class="display text-2xl mt-2">FGAS</h3><p class="lead mt-3">Manipolazione gas fluorurati a effetto serra. Reg. UE 517/2014.</p></div>
+      <div class="spec-card"><p class="spec-num">CERTIFICAZIONE</p><h3 class="display text-2xl mt-2">ACCREDIA</h3><p class="lead mt-3">Conformità di processo. Ente unico nazionale di accreditamento.</p></div>
+    </div>
+    <p class="lead text-xs mt-4 italic">Attestati disponibili su richiesta del cliente.</p>
+  </section>
+
+  <!-- Settori -->
+  <section class="section">
+    <p class="kicker mb-4">// 06 — SETTORI</p>
+    <h2 class="h-section mb-12">Sei applicazioni verticali.</h2>
+    <div class="grid-3">
+      <div class="spec-card"><p class="spec-num">SCT.01</p><h3 class="display text-2xl mt-2 mb-2">Cliniche</h3><p class="lead">Sale operatorie, ambulatori, RSA. Standard ISO 14644 ambito sanitario.</p><a href="#contatti-cr" class="kicker mt-4 inline-block kicker-accent">→ SOPRALLUOGO</a></div>
+      <div class="spec-card"><p class="spec-num">SCT.02</p><h3 class="display text-2xl mt-2 mb-2">Uffici</h3><p class="lead">Open space densi, ricircolo, ricambio aria UNI 13779.</p><a href="#contatti-cr" class="kicker mt-4 inline-block kicker-accent">→ SOPRALLUOGO</a></div>
+      <div class="spec-card"><p class="spec-num">SCT.03</p><h3 class="display text-2xl mt-2 mb-2">HoReCa</h3><p class="lead">Hotel, ristoranti, B&B. Cucine + sale comuni. HACCP-aware.</p><a href="#contatti-cr" class="kicker mt-4 inline-block kicker-accent">→ SOPRALLUOGO</a></div>
+      <div class="spec-card"><p class="spec-num">SCT.04</p><h3 class="display text-2xl mt-2 mb-2">Scuole</h3><p class="lead">Aule, palestre, mense. Ricambio normato L.R. Emilia-Romagna.</p><a href="#contatti-cr" class="kicker mt-4 inline-block kicker-accent">→ SOPRALLUOGO</a></div>
+      <div class="spec-card"><p class="spec-num">SCT.05</p><h3 class="display text-2xl mt-2 mb-2">Industria</h3><p class="lead">Capannoni, magazzini. Polveri di processo, fumi, ricircolo.</p><a href="#contatti-cr" class="kicker mt-4 inline-block kicker-accent">→ SOPRALLUOGO</a></div>
+      <div class="spec-card"><p class="spec-num">SCT.06</p><h3 class="display text-2xl mt-2 mb-2">Residenziale</h3><p class="lead">VMC, split, condomini. Allergici, pet, neonati.</p><a href="#contatti-cr" class="kicker mt-4 inline-block kicker-accent">→ SOPRALLUOGO</a></div>
+    </div>
+  </section>
+
+  <!-- Listino -->
+  <section id="listino-cr" class="section">
+    <p class="kicker mb-4">// 07 — LISTINO INDICATIVO</p>
+    <h2 class="h-section mb-12">Range pre-sopralluogo.</h2>
+    <div class="grid-2">
+      <div class="spec-card"><p class="spec-num">PR.001</p><h3 class="display text-2xl mt-2">Check-up impianto</h3><p class="lead">Videoispezione + relazione fotografica + valutazione carico</p><p class="display text-3xl accent mt-4">GRATUITO</p></div>
+      <div class="spec-card"><p class="spec-num">PR.002</p><h3 class="display text-2xl mt-2">Sanif. residenziale</h3><p class="lead">VMC / split, fino a 150 mq</p><p class="display text-3xl accent mt-4">€ 380 — 850</p></div>
+      <div class="spec-card"><p class="spec-num">PR.003</p><h3 class="display text-2xl mt-2">Sanif. uffici / studi</h3><p class="lead">UTA singola, 200-600 mq</p><p class="display text-3xl accent mt-4">€ 1.200 — 3.400</p></div>
+      <div class="spec-card"><p class="spec-num">PR.004</p><h3 class="display text-2xl mt-2">Sanif. cliniche / hotel</h3><p class="lead">Multi-UTA, ≥800 mq, certificata</p><p class="display text-3xl accent mt-4">€ 3.800 — 9.500</p></div>
+      <div class="spec-card"><p class="spec-num">PR.005</p><h3 class="display text-2xl mt-2">Filtri elettrostatici</h3><p class="lead">Fornitura + posa + manutenzione</p><p class="display text-3xl accent mt-4">SU MISURA</p></div>
+      <div class="spec-card"><p class="spec-num">PR.006</p><h3 class="display text-2xl mt-2">Check muffa</h3><p class="lead">Indagine murature + condotte + relazione</p><p class="display text-3xl accent mt-4">€ 180 — 450</p></div>
+    </div>
+    <p class="lead text-xs mt-6 italic">Listino indicativo. Preventivo personalizzato al termine del sopralluogo gratuito.</p>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section-narrow">
+    <p class="kicker mb-4">// 08 — FAQ</p>
+    <h2 class="h-section mb-12">Domande frequenti.</h2>
+    <div class="space-y-3">
+      <details class="spec-card"><summary class="flex justify-between"><span class="display text-xl">Frequenza sanificazione consigliata?</span><span class="icn alarm text-2xl">+</span></summary><p class="lead mt-4">Sanitario/ricettivo: 12 mesi · Uffici: 24 mesi · Residenziale: 36 mesi.</p></details>
+      <details class="spec-card"><summary class="flex justify-between"><span class="display text-xl">Sopralluogo davvero gratuito?</span><span class="icn alarm text-2xl">+</span></summary><p class="lead mt-4">Sì, su provincia di Bologna e zone limitrofe. Preventivo entro 48h.</p></details>
+      <details class="spec-card"><summary class="flex justify-between"><span class="display text-xl">Quale documentazione rilasciate?</span><span class="icn alarm text-2xl">+</span></summary><p class="lead mt-4">Dossier fotografico pre/post + attestato di sanificazione + piano di mantenimento.</p></details>
+      <details class="spec-card"><summary class="flex justify-between"><span class="display text-xl">Garanzia?</span><span class="icn alarm text-2xl">+</span></summary><p class="lead mt-4">Se il risultato non rispetta lo standard concordato, ripetiamo l'intervento gratuitamente.</p></details>
+    </div>
+  </section>
+
+  <!-- Form -->
+  <section id="contatti-cr" class="section section-narrow">
+    <div class="spec-card" style="background:#0E0E10; color:#FAFAFA; border-color:#0E0E10;">
+      <p class="kicker kicker-accent mb-4">// REQUEST · SOPRALLUOGO</p>
+      <h2 class="h-section mb-4" style="color:#FAFAFA;">PRENOTI.</h2>
+      <p class="lead lead-light mb-8">Risposta entro 24 ore lavorative.</p>
+      <form action="https://api.web3forms.com/submit" method="POST" class="space-y-3">
+        <input type="hidden" name="access_key" value="REPLACE_WITH_WEB3FORMS_KEY" />
+        <input type="hidden" name="subject" value="Ariapura · Sopralluogo · V3 Cleanroom" />
+        <div class="form-row">
+          <input type="text" name="nome" placeholder="NOME E COGNOME *" required style="background:#1a1a1c; color:#fafafa; border-color:#333;" />
+          <input type="text" name="azienda" placeholder="AZIENDA / STRUTTURA" style="background:#1a1a1c; color:#fafafa; border-color:#333;" />
+        </div>
+        <div class="form-row">
+          <input type="email" name="email" placeholder="EMAIL *" required style="background:#1a1a1c; color:#fafafa; border-color:#333;" />
+          <input type="tel" name="telefono" placeholder="TELEFONO *" required style="background:#1a1a1c; color:#fafafa; border-color:#333;" />
+        </div>
+        <textarea name="messaggio" rows="3" placeholder="DESCRIVA L'IMPIANTO (OPZIONALE)" style="background:#1a1a1c; color:#fafafa; border-color:#333;"></textarea>
+        <button type="submit" class="cta-primary w-full" style="background:#A6E0D2; color:#0E0E10;">→ INVIA RICHIESTA</button>
+      </form>
+    </div>
+  </section>
+
+  <footer style="background:#0E0E10; color:#D8DEE3; padding:60px 32px; text-align:left; font-family:'JetBrains Mono', monospace;">
+    <div style="max-width:1280px; margin:0 auto;" class="grid-3">
+      <div><p class="display text-2xl" style="color:#A6E0D2;">[ ARIAPURA ]</p><p class="text-xs mt-2">SANIFICAZIONE AERAULICA<br/>BOLOGNA · DA OLTRE 30 ANNI</p></div>
+      <div><p class="kicker kicker-accent mb-2">CONTATTI</p><p class="text-xs">Via Lame 261, Castel Maggiore (BO)<br/>+39 051 0828717<br/>info@ariapura.org</p></div>
+      <div><p class="kicker kicker-accent mb-2">ORARI</p><p class="text-xs">Lun-Ven 09:00-13:00<br/>14:30-17:30<br/>Sab-Dom su appuntamento</p></div>
+    </div>
+    <p class="text-xs mt-12 text-center" style="color:#666;">© 2026 ARIAPURA · P.IVA DA CONFERMARE · COOKIE TECNICI ESSENZIALI</p>
+  </footer>
+</main>
+
+<!-- ============================================================ -->
+<!-- V4 TERRA NUOVA -->
+<!-- ============================================================ -->
+<main class="variant v-terra">
+
+  <section class="hero-terra">
+    <header class="topbar">
+      <div class="brand-mark" style="color:#F2EDE3;">Ariapura</div>
+      <div class="flex items-center gap-6">
+        <a href="tel:+390510828717" class="text-sm" style="color:#F2EDE3; letter-spacing:0.06em;">+39 051 0828717</a>
+        <a href="#contatti-terra" class="cta-secondary" style="border-color:#F2EDE3; color:#F2EDE3; padding:10px 20px;">Sopralluogo</a>
+      </div>
+    </header>
+    <div class="parallax-fog"></div>
+    <div class="hero-content">
+      <p class="kicker mb-6">Bologna · Modena · Ferrara · Imola</p>
+      <h1 class="h-display">Aria pulita<br/>per la <em>Sua</em> terra.</h1>
+      <p class="lead mt-8 max-w-2xl">Sanificazione HVAC che rispetta gli ambienti che protegge.<br/>Da oltre 30 anni in Emilia-Romagna.</p>
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a href="#contatti-terra" class="cta-primary">Prenoti il Sopralluogo Gratuito</a>
+        <a href="#listino-terra" class="cta-secondary" style="color:#F2EDE3;">Vedere il Listino Indicativo</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Manifesto aria -->
+  <section class="section section-narrow text-center">
+    <p class="kicker mb-6">Manifesto</p>
+    <h2 class="h-section">L'aria che <em>respiriamo</em> nasce<br/>nei luoghi che <em>abitiamo</em>.</h2>
+    <p class="lead mt-8">Ogni edificio ha un proprio respiro. Quando manuteniamo i suoi impianti aeraulici, manuteniamo la qualità dell'aria di chi vi lavora, dorme, guarisce. Il nostro lavoro è invisibile per definizione: si vede solo se manca.</p>
+  </section>
+
+  <!-- Mappa servizio regionale -->
+  <section class="section section-light">
+    <p class="kicker mb-4 text-center">Territorio</p>
+    <h2 class="h-section text-center mb-12" style="color:#1A2A2E;">Emilia-Romagna,<br/><em>casa nostra</em>.</h2>
+    <div class="grid-4">
+      <div class="text-center"><p class="display text-5xl" style="color:#6B8E7F;">Bologna</p><p class="kicker mt-3" style="color:#6B8E7F;">Sede operativa</p></div>
+      <div class="text-center"><p class="display text-5xl" style="color:#6B8E7F;">Modena</p><p class="kicker mt-3" style="color:#6B8E7F;">Provincia + capoluogo</p></div>
+      <div class="text-center"><p class="display text-5xl" style="color:#6B8E7F;">Ferrara</p><p class="kicker mt-3" style="color:#6B8E7F;">Centro storico + provincia</p></div>
+      <div class="text-center"><p class="display text-5xl" style="color:#6B8E7F;">Imola</p><p class="kicker mt-3" style="color:#6B8E7F;">Imolese + Romagna</p></div>
+    </div>
+  </section>
+
+  <!-- Processo -->
+  <section class="section">
+    <p class="kicker mb-4 text-center">Processo</p>
+    <h2 class="h-section text-center mb-12">Quattro <em>movimenti</em>.</h2>
+    <div class="grid-2">
+      <div class="case-card"><p class="brass display text-5xl mb-3">01</p><h3 class="display text-3xl mb-3">Ascolto</h3><p class="lead">Sopralluogo gratuito. Videoispezione robotizzata. Mappatura dello stato di partenza, condivisa con il committente prima di qualsiasi decisione.</p></div>
+      <div class="case-card"><p class="brass display text-5xl mb-3">02</p><h3 class="display text-3xl mb-3">Bonifica</h3><p class="lead">Spazzole rotanti dimensionate sulla geometria della condotta. Aspirazione HEPA H13 a 25.000 Pa. Distacco e rimozione del particolato.</p></div>
+      <div class="case-card"><p class="brass display text-5xl mb-3">03</p><h3 class="display text-3xl mb-3">Sanificazione</h3><p class="lead">Nebulizzazione di principi attivi PMC autorizzati. Effetto residuale batteriostatico. Tracciabilità del prodotto utilizzato.</p></div>
+      <div class="case-card"><p class="brass display text-5xl mb-3">04</p><h3 class="display text-3xl mb-3">Restituzione</h3><p class="lead">Ispezione conclusiva, dossier fotografico, attestato firmato. Piano di mantenimento personalizzato sull'uso reale dell'edificio.</p></div>
+    </div>
+  </section>
+
+  <!-- Attrezzature -->
+  <section class="section">
+    <p class="kicker mb-4 text-center">Attrezzature</p>
+    <h2 class="h-section text-center mb-12">Strumenti di <em>precisione</em>.</h2>
+    <div class="grid-3">
+      <div><div style="aspect-ratio:4/3; background-image:url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1200&q=80'); background-size:cover; background-position:center; border-radius:4px;"></div><p class="kicker mt-4">Robot</p><p class="display text-2xl">Videoispezione</p></div>
+      <div><div style="aspect-ratio:4/3; background-image:url('https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=1200&q=80'); background-size:cover; background-position:center; border-radius:4px;"></div><p class="kicker mt-4">Aspirazione</p><p class="display text-2xl">HEPA H13</p></div>
+      <div><div style="aspect-ratio:4/3; background-image:url('https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=1200&q=80'); background-size:cover; background-position:center; border-radius:4px;"></div><p class="kicker mt-4">Nebulizzazione</p><p class="display text-2xl">ULV a freddo</p></div>
+    </div>
+  </section>
+
+  <!-- 4 case film placeholders -->
+  <section class="section section-light">
+    <p class="kicker mb-4 text-center">Casi di lavoro · Anonimizzati</p>
+    <h2 class="h-section text-center mb-12" style="color:#1A2A2E;">Quattro <em>cantieri</em>, una storia.</h2>
+    <div class="grid-2">
+      <div><div style="aspect-ratio:16/10; background-image:url('https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?w=1200&q=80'); background-size:cover; background-position:center; border-radius:4px;"></div><p class="kicker mt-4" style="color:#6B8E7F;">Caso 01 · Sanitario</p><p class="display text-2xl mt-1" style="color:#1A2A2E;">Clinica privata Bologna, 1.800 mq</p><p class="lead mt-2" style="color:#3A4A4E;">Tre UTA del 2014. Bonifica meccanica completa, sanificazione PMC, sostituzione filtrazione. Tre giornate non lavorative.</p></div>
+      <div><div style="aspect-ratio:16/10; background-image:url('https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1200&q=80'); background-size:cover; background-position:center; border-radius:4px;"></div><p class="kicker mt-4" style="color:#6B8E7F;">Caso 02 · Ricettivo</p><p class="display text-2xl mt-1" style="color:#1A2A2E;">Hotel 4* centro storico Bologna</p><p class="lead mt-2" style="color:#3A4A4E;">Sei piani, tre UTA. Lavoro notturno, condotte ispezionate metro per metro, biofilm rimosso.</p></div>
+      <div><div style="aspect-ratio:16/10; background-image:url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80'); background-size:cover; background-position:center; border-radius:4px;"></div><p class="kicker mt-4" style="color:#6B8E7F;">Caso 03 · Uffici</p><p class="display text-2xl mt-1" style="color:#1A2A2E;">Studio professionale, 600 mq</p><p class="lead mt-2" style="color:#3A4A4E;">Open space + sale riunioni. Intervento weekend, restituzione con dossier fotografico.</p></div>
+      <div><div style="aspect-ratio:16/10; background-image:url('https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=1200&q=80'); background-size:cover; background-position:center; border-radius:4px;"></div><p class="kicker mt-4" style="color:#6B8E7F;">Caso 04 · Industria</p><p class="display text-2xl mt-1" style="color:#1A2A2E;">Capannone produttivo San Lazzaro</p><p class="lead mt-2" style="color:#3A4A4E;">2.400 mq. Polveri di processo accumulate, bonifica + filtrazione dedicata.</p></div>
+    </div>
+    <p class="text-xs mt-8 text-center italic" style="color:#6B8E7F;">Casi reali. Clienti in NDA. Referenze dirette su richiesta del committente.</p>
+  </section>
+
+  <!-- Settori -->
+  <section class="section">
+    <p class="kicker mb-4 text-center">Settori</p>
+    <h2 class="h-section text-center mb-12">Sei <em>mondi</em>.</h2>
+    <div class="grid-3">
+      <div class="case-card"><h3 class="display text-2xl mb-3">Cliniche</h3><p class="lead">Sale operatorie, ambulatori, RSA. Compliance sanitaria.</p><a href="#contatti-terra" class="brass mt-4 inline-block">Sopralluogo →</a></div>
+      <div class="case-card"><h3 class="display text-2xl mb-3">Uffici</h3><p class="lead">Open space, ricambio aria normato.</p><a href="#contatti-terra" class="brass mt-4 inline-block">Sopralluogo →</a></div>
+      <div class="case-card"><h3 class="display text-2xl mb-3">HoReCa</h3><p class="lead">Hotel, ristoranti, B&B. HACCP-aware.</p><a href="#contatti-terra" class="brass mt-4 inline-block">Sopralluogo →</a></div>
+      <div class="case-card"><h3 class="display text-2xl mb-3">Scuole</h3><p class="lead">Aule, palestre, mense.</p><a href="#contatti-terra" class="brass mt-4 inline-block">Sopralluogo →</a></div>
+      <div class="case-card"><h3 class="display text-2xl mb-3">Industria</h3><p class="lead">Capannoni, magazzini, ricircolo.</p><a href="#contatti-terra" class="brass mt-4 inline-block">Sopralluogo →</a></div>
+      <div class="case-card"><h3 class="display text-2xl mb-3">Residenziale</h3><p class="lead">VMC, split, condomini, ville.</p><a href="#contatti-terra" class="brass mt-4 inline-block">Sopralluogo →</a></div>
+    </div>
+  </section>
+
+  <!-- Listino -->
+  <section id="listino-terra" class="section section-light">
+    <p class="kicker mb-4 text-center">Listino indicativo</p>
+    <h2 class="h-section text-center mb-4" style="color:#1A2A2E;">Trasparenza <em>prima</em>.</h2>
+    <p class="lead text-center mb-12" style="color:#3A4A4E;">Fasce indicative. Preventivo personalizzato dopo sopralluogo gratuito.</p>
+    <div class="space-y-3">
+      <div style="background:#FFF; padding:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; border:1px solid rgba(26,42,46,0.1);"><div><p class="display text-2xl" style="color:#1A2A2E;">Check-up impianto</p><p class="kicker mt-1" style="color:#6B8E7F;">Videoispezione + relazione</p></div><p class="display text-3xl" style="color:#B8945C;">Gratuito</p></div>
+      <div style="background:#FFF; padding:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; border:1px solid rgba(26,42,46,0.1);"><div><p class="display text-2xl" style="color:#1A2A2E;">Sanificazione residenziale</p><p class="kicker mt-1" style="color:#6B8E7F;">VMC / split, fino a 150 mq</p></div><p class="display text-3xl" style="color:#B8945C;">€ 380 — 850</p></div>
+      <div style="background:#FFF; padding:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; border:1px solid rgba(26,42,46,0.1);"><div><p class="display text-2xl" style="color:#1A2A2E;">Sanificazione uffici</p><p class="kicker mt-1" style="color:#6B8E7F;">UTA singola, 200-600 mq</p></div><p class="display text-3xl" style="color:#B8945C;">€ 1.200 — 3.400</p></div>
+      <div style="background:#FFF; padding:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; border:1px solid rgba(26,42,46,0.1);"><div><p class="display text-2xl" style="color:#1A2A2E;">Sanificazione cliniche / hotel</p><p class="kicker mt-1" style="color:#6B8E7F;">Multi-UTA, ≥800 mq</p></div><p class="display text-3xl" style="color:#B8945C;">€ 3.800 — 9.500</p></div>
+      <div style="background:#FFF; padding:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; border:1px solid rgba(26,42,46,0.1);"><div><p class="display text-2xl" style="color:#1A2A2E;">Filtri elettrostatici</p><p class="kicker mt-1" style="color:#6B8E7F;">Fornitura + posa</p></div><p class="display text-3xl" style="color:#B8945C;">Su misura</p></div>
+    </div>
+  </section>
+
+  <!-- Sostenibilità -->
+  <section class="section section-narrow text-center">
+    <p class="kicker mb-4">Sostenibilità</p>
+    <h2 class="h-section mb-8">Un impianto pulito<br/><em>consuma meno</em>.</h2>
+    <p class="lead">Gli impianti aeraulici sanificati riducono il consumo elettrico fino al 18-25% (dato indicativo, cantiere reale). Manuteniamo l'aria interna e l'efficienza energetica simultaneamente. Il rispetto degli ambienti passa anche da qui.</p>
+  </section>
+
+  <!-- Stampa placeholder -->
+  <section class="section section-narrow">
+    <p class="kicker mb-4 text-center">Stampa & riconoscimenti</p>
+    <h2 class="h-section text-center mb-8">In <em>fase di documentazione</em>.</h2>
+    <p class="lead text-center italic">Sezione in attivazione. Le rassegne stampa e gli articoli di settore verranno pubblicati al via del rilancio editoriale 2026.</p>
+  </section>
+
+  <!-- Team / Founder -->
+  <section class="section section-narrow">
+    <p class="kicker mb-4">Team</p>
+    <h2 class="h-section mb-8"><em>Alex</em> e la squadra.</h2>
+    <p class="lead mb-4">Ariapura è un'azienda a conduzione tecnica. Alex segue personalmente i sopralluoghi più complessi, firma le relazioni d'intervento, e forma ogni nuovo operatore sul campo.</p>
+    <p class="lead italic brass">Ritratto del fondatore disponibile dopo sopralluogo. Cognome confermato in fase di contratto.</p>
+  </section>
+
+  <!-- Sede Bologna -->
+  <section class="section section-narrow">
+    <p class="kicker mb-4">Sede</p>
+    <h2 class="h-section mb-8"><em>Castel Maggiore.</em></h2>
+    <div class="case-card">
+      <p class="display text-2xl mb-2">Via Lame 261</p>
+      <p class="lead">40013 Castel Maggiore (BO)</p>
+      <p class="lead mt-3">Lun-Ven 09:00-13:00 / 14:30-17:30<br/>Sab-Dom su appuntamento</p>
+      <p class="lead mt-4 brass">+39 051 0828717 · info@ariapura.org</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section-narrow">
+    <p class="kicker mb-4 text-center">Domande frequenti</p>
+    <h2 class="h-section text-center mb-12">FAQ</h2>
+    <div class="space-y-3">
+      <details class="case-card"><summary class="flex justify-between"><span class="display text-2xl">Frequenza consigliata?</span><span class="icn brass text-3xl">+</span></summary><p class="lead mt-4">Sanitario/ricettivo: 12 mesi · Uffici: 24 mesi · Residenziale: 36 mesi.</p></details>
+      <details class="case-card"><summary class="flex justify-between"><span class="display text-2xl">Sopralluogo gratuito?</span><span class="icn brass text-3xl">+</span></summary><p class="lead mt-4">Sì, su provincia di Bologna e zone limitrofe. Preventivo entro 48h.</p></details>
+      <details class="case-card"><summary class="flex justify-between"><span class="display text-2xl">Quale documentazione?</span><span class="icn brass text-3xl">+</span></summary><p class="lead mt-4">Dossier fotografico pre/post + attestato + piano di mantenimento.</p></details>
+      <details class="case-card"><summary class="flex justify-between"><span class="display text-2xl">Garanzia?</span><span class="icn brass text-3xl">+</span></summary><p class="lead mt-4">Se il risultato non soddisfa, ripetiamo l'intervento gratuitamente.</p></details>
+    </div>
+  </section>
+
+  <!-- Form -->
+  <section id="contatti-terra" class="section section-narrow">
+    <div class="case-card">
+      <p class="kicker mb-4">Sopralluogo gratuito</p>
+      <h2 class="h-section mb-4">Si <em>scriva</em>.</h2>
+      <p class="lead mb-8">Risposta entro 24 ore lavorative.</p>
+      <form action="https://api.web3forms.com/submit" method="POST" class="space-y-4">
+        <input type="hidden" name="access_key" value="REPLACE_WITH_WEB3FORMS_KEY" />
+        <input type="hidden" name="subject" value="Ariapura · Sopralluogo · V4 Terra Nuova" />
+        <div class="form-row">
+          <input type="text" name="nome" placeholder="Nome e cognome *" required />
+          <input type="text" name="azienda" placeholder="Azienda / struttura" />
+        </div>
+        <div class="form-row">
+          <input type="email" name="email" placeholder="Email *" required />
+          <input type="tel" name="telefono" placeholder="Telefono *" required />
+        </div>
+        <textarea name="messaggio" rows="4" placeholder="Descriva l'impianto"></textarea>
+        <button type="submit" class="cta-primary w-full">Prenoti il Sopralluogo Gratuito</button>
+      </form>
+    </div>
+  </section>
+
+  <footer style="background:#0f1d20; color:#C9C0AB; padding:60px 40px; text-align:center;">
+    <p class="display text-3xl mb-3"><em>Ariapura</em></p>
+    <p class="text-sm">Via Lame 261, Castel Maggiore (BO) · +39 051 0828717 · info@ariapura.org</p>
+    <p class="text-sm mt-2">Lun-Ven 09:00-13:00 / 14:30-17:30 · Sab-Dom su appuntamento</p>
+    <p class="text-xs mt-6 brass">© 2026 Ariapura · P.IVA da confermare · Cookie tecnici essenziali</p>
+  </footer>
+</main>
+
+<!-- ============================================================ -->
+<!-- V5 CINECITTÀ -->
+<!-- ============================================================ -->
+<main class="variant v-cinecitta">
+
+  <section class="hero-cinema">
+    <header class="topbar">
+      <div class="brand-mark"><em>Ariapura</em></div>
+      <div class="flex items-center gap-6">
+        <a href="tel:+390510828717" class="text-sm" style="letter-spacing:0.08em;">+39 051 0828717</a>
+        <a href="#contatti-cine" class="cta-secondary" style="padding:10px 20px;">Sopralluogo</a>
+      </div>
+    </header>
+    <div class="letterbox"></div>
+    <div class="anamorphic-flare"></div>
+    <div class="hero-overlay">
+      <div class="title-card">
+        <p class="chapter-num mb-6">— Capitolo 1 —</p>
+        <h1 class="h-display"><em>L'aria invisibile.</em></h1>
+        <p class="lead mt-8 max-w-2xl mx-auto">Un documentario sulla sanificazione professionale degli impianti aeraulici. Bologna · da oltre 30 anni.</p>
+        <div class="mt-10 flex flex-wrap gap-4 justify-center">
+          <a href="#contatti-cine" class="cta-primary">Prenoti il Sopralluogo Gratuito</a>
+          <a href="#listino-cine" class="cta-secondary">Vedere il Listino Indicativo</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capitolo 1: Problema -->
+  <section class="section section-narrow">
+    <p class="chapter-num mb-4">— Capitolo 1 —</p>
+    <h2 class="h-section mb-8"><em>Il problema.</em></h2>
+    <p class="lead text-lg mb-4">Ogni metro di condotta aeraulica è un veicolo silenzioso. Trasporta polveri, biofilm, allergeni, microorganismi.</p>
+    <p class="lead text-lg mb-4">Quando l'impianto smette di essere manutenuto, smette di servire l'edificio e inizia a contaminarlo. Cinque grammi di polvere per metro lineare. Spore fungine in ricircolo continuo. Efficienza dell'impianto in caduta del 30%.</p>
+    <p class="lead text-lg italic teal">Eppure è invisibile. Si vede solo quando manca.</p>
+  </section>
+
+  <!-- Capitolo 2: Processo -->
+  <section class="section">
+    <p class="chapter-num mb-4 text-center">— Capitolo 2 —</p>
+    <h2 class="h-section text-center mb-12"><em>Il processo.</em></h2>
+    <div class="grid-2">
+      <div class="scene-card"><p class="chapter-num mb-3">SCENA I</p><h3 class="display text-3xl mb-3">Ispezione</h3><p class="lead">Il robot entra nella condotta. La telecamera registra. Il committente vede ciò che non aveva mai visto.</p></div>
+      <div class="scene-card"><p class="chapter-num mb-3">SCENA II</p><h3 class="display text-3xl mb-3">Bonifica</h3><p class="lead">Spazzole rotanti. Aspirazione HEPA H13. Distacco e rimozione del particolato in continuo, senza dispersione nell'ambiente.</p></div>
+      <div class="scene-card"><p class="chapter-num mb-3">SCENA III</p><h3 class="display text-3xl mb-3">Sanificazione</h3><p class="lead">Nebulizzazione di principi attivi PMC autorizzati. Effetto residuale. Tracciabilità del prodotto utilizzato.</p></div>
+      <div class="scene-card"><p class="chapter-num mb-3">SCENA IV</p><h3 class="display text-3xl mb-3">Restituzione</h3><p class="lead">Ispezione conclusiva. Dossier fotografico. Attestato firmato. Piano di mantenimento personalizzato.</p></div>
+    </div>
+  </section>
+
+  <!-- Capitolo 3: Attrezzature -->
+  <section class="section">
+    <p class="chapter-num mb-4 text-center">— Capitolo 3 —</p>
+    <h2 class="h-section text-center mb-12"><em>Lo strumentario.</em></h2>
+    <div class="grid-3">
+      <div><div style="aspect-ratio:4/3; background-image:url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1200&q=80'); background-size:cover; background-position:center; filter:contrast(1.05) saturate(0.95);"></div><p class="chapter-num mt-4">PROP 01</p><p class="display text-2xl">Robot videoispezione</p><p class="lead text-sm mt-2">FullHD · LED 30W · brandeggio 360°</p></div>
+      <div><div style="aspect-ratio:4/3; background-image:url('https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=1200&q=80'); background-size:cover; background-position:center; filter:contrast(1.05) saturate(0.95);"></div><p class="chapter-num mt-4">PROP 02</p><p class="display text-2xl">Aspiratore HEPA</p><p class="lead text-sm mt-2">H13 · 25.000 Pa · filtro 99,95%</p></div>
+      <div><div style="aspect-ratio:4/3; background-image:url('https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=1200&q=80'); background-size:cover; background-position:center; filter:contrast(1.05) saturate(0.95);"></div><p class="chapter-num mt-4">PROP 03</p><p class="display text-2xl">Nebulizzatore ULV</p><p class="lead text-sm mt-2">5-50 µm · PMC autorizzati</p></div>
+    </div>
+  </section>
+
+  <!-- Capitolo 4: Caso Bologna -->
+  <section class="section section-narrow">
+    <p class="chapter-num mb-4">— Capitolo 4 —</p>
+    <h2 class="h-section mb-8"><em>Caso Bologna.</em><br/>Una clinica, tre UTA, tre giornate.</h2>
+    <p class="lead text-lg mb-4">Sopralluogo richiesto dalla direzione sanitaria dopo segnalazione di odori in sala d'attesa. Videoispezione iniziale: accumulo di particolato fine, biofilm sulle batterie di scambio.</p>
+    <p class="lead text-lg mb-4">Tre giornate non lavorative. Bonifica meccanica completa. Sanificazione PMC. Sostituzione filtrazione. Ispezione post-intervento documentata.</p>
+    <p class="chapter-num mt-8">— Cliente in NDA · Referenza diretta su richiesta —</p>
+  </section>
+
+  <!-- Card interviste -->
+  <section class="section">
+    <p class="chapter-num mb-4 text-center">— Interviste —</p>
+    <h2 class="h-section text-center mb-12"><em>Voci dal cantiere.</em></h2>
+    <div class="grid-2">
+      <div class="scene-card"><p class="lead text-lg italic mb-4">«La videoispezione mostra esattamente cosa stiamo affrontando. Il committente non firma più al buio.»</p><p class="chapter-num">— Alex, fondatore</p></div>
+      <div class="scene-card"><p class="lead text-lg italic mb-4">«Ariapura ha lavorato di notte per non interrompere il servizio. La mattina dopo, l'aria della lobby era diversa.»</p><p class="chapter-num">— Direttore hotel · anonimo</p></div>
+    </div>
+  </section>
+
+  <!-- Reel specifiche -->
+  <section class="section">
+    <p class="chapter-num mb-4 text-center">— Specifiche tecniche —</p>
+    <h2 class="h-section text-center mb-12"><em>Il reel.</em></h2>
+    <div class="grid-4">
+      <div class="scene-card text-center"><p class="display text-4xl accent">99,95%</p><p class="chapter-num mt-3">FILTRAZIONE HEPA</p></div>
+      <div class="scene-card text-center"><p class="display text-4xl accent">25k Pa</p><p class="chapter-num mt-3">DEPRESSIONE</p></div>
+      <div class="scene-card text-center"><p class="display text-4xl accent">5-50µm</p><p class="chapter-num mt-3">NEBULIZZAZIONE</p></div>
+      <div class="scene-card text-center"><p class="display text-4xl accent">FGAS</p><p class="chapter-num mt-3">+ ACCREDIA</p></div>
+    </div>
+  </section>
+
+  <!-- Crediti team -->
+  <section class="section section-narrow">
+    <p class="chapter-num mb-4">— Crediti —</p>
+    <h2 class="h-section mb-8"><em>Il cast tecnico.</em></h2>
+    <div class="space-y-4">
+      <div class="flex justify-between items-baseline border-b" style="border-color:rgba(246,233,210,0.15); padding-bottom:12px;"><p class="display text-2xl">Alex</p><p class="chapter-num">FONDATORE · DIREZIONE TECNICA</p></div>
+      <div class="flex justify-between items-baseline border-b" style="border-color:rgba(246,233,210,0.15); padding-bottom:12px;"><p class="display text-2xl">Squadra Ariapura</p><p class="chapter-num">OPERATORI CERTIFICATI</p></div>
+      <div class="flex justify-between items-baseline border-b" style="border-color:rgba(246,233,210,0.15); padding-bottom:12px;"><p class="display text-2xl">Cliniche · Hotel · Uffici</p><p class="chapter-num">COMMITTENZE STORICHE</p></div>
+    </div>
+    <p class="chapter-num mt-8 italic">Ritratto fondatore + foto squadra in fase di produzione editoriale 2026.</p>
+  </section>
+
+  <!-- Settori -->
+  <section class="section">
+    <p class="chapter-num mb-4 text-center">— Settori —</p>
+    <h2 class="h-section text-center mb-12"><em>Sei storie.</em></h2>
+    <div class="grid-3">
+      <div class="scene-card"><h3 class="display text-2xl mb-3">Cliniche</h3><p class="lead">Sale operatorie, RSA. Compliance D.Lgs. 81.</p><a href="#contatti-cine" class="kicker mt-4 inline-block">SOPRALLUOGO →</a></div>
+      <div class="scene-card"><h3 class="display text-2xl mb-3">Uffici</h3><p class="lead">Open space, ricambio aria.</p><a href="#contatti-cine" class="kicker mt-4 inline-block">SOPRALLUOGO →</a></div>
+      <div class="scene-card"><h3 class="display text-2xl mb-3">HoReCa</h3><p class="lead">Hotel, ristoranti, B&B. HACCP-aware.</p><a href="#contatti-cine" class="kicker mt-4 inline-block">SOPRALLUOGO →</a></div>
+      <div class="scene-card"><h3 class="display text-2xl mb-3">Scuole</h3><p class="lead">Aule, palestre, mense.</p><a href="#contatti-cine" class="kicker mt-4 inline-block">SOPRALLUOGO →</a></div>
+      <div class="scene-card"><h3 class="display text-2xl mb-3">Industria</h3><p class="lead">Capannoni, magazzini, ricircolo.</p><a href="#contatti-cine" class="kicker mt-4 inline-block">SOPRALLUOGO →</a></div>
+      <div class="scene-card"><h3 class="display text-2xl mb-3">Residenziale</h3><p class="lead">VMC, split, condomini.</p><a href="#contatti-cine" class="kicker mt-4 inline-block">SOPRALLUOGO →</a></div>
+    </div>
+  </section>
+
+  <!-- Listino -->
+  <section id="listino-cine" class="section">
+    <p class="chapter-num mb-4 text-center">— Listino indicativo —</p>
+    <h2 class="h-section text-center mb-12"><em>I costi.</em></h2>
+    <div class="grid-2">
+      <div class="scene-card flex justify-between items-baseline"><div><p class="display text-2xl">Check-up</p><p class="chapter-num mt-1">VIDEOISPEZIONE + RELAZIONE</p></div><p class="display text-2xl accent">Gratuito</p></div>
+      <div class="scene-card flex justify-between items-baseline"><div><p class="display text-2xl">Residenziale</p><p class="chapter-num mt-1">VMC / SPLIT, fino a 150 mq</p></div><p class="display text-2xl accent">€ 380 — 850</p></div>
+      <div class="scene-card flex justify-between items-baseline"><div><p class="display text-2xl">Uffici</p><p class="chapter-num mt-1">UTA SINGOLA, 200-600 mq</p></div><p class="display text-2xl accent">€ 1.200 — 3.400</p></div>
+      <div class="scene-card flex justify-between items-baseline"><div><p class="display text-2xl">Cliniche / Hotel</p><p class="chapter-num mt-1">MULTI-UTA, ≥800 mq</p></div><p class="display text-2xl accent">€ 3.800 — 9.500</p></div>
+      <div class="scene-card flex justify-between items-baseline"><div><p class="display text-2xl">Filtri elettrostatici</p><p class="chapter-num mt-1">FORNITURA + POSA</p></div><p class="display text-2xl accent">Su misura</p></div>
+      <div class="scene-card flex justify-between items-baseline"><div><p class="display text-2xl">Check muffa</p><p class="chapter-num mt-1">MURATURE + CONDOTTE</p></div><p class="display text-2xl accent">€ 180 — 450</p></div>
+    </div>
+    <p class="chapter-num mt-6 text-center italic">Listino indicativo. Preventivo personalizzato dopo sopralluogo.</p>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section-narrow">
+    <p class="chapter-num mb-4 text-center">— FAQ —</p>
+    <h2 class="h-section text-center mb-12"><em>Domande frequenti.</em></h2>
+    <div class="space-y-3">
+      <details class="scene-card"><summary class="flex justify-between"><span class="display text-2xl">Frequenza?</span><span class="icn accent text-3xl">+</span></summary><p class="lead mt-4">Sanitario/ricettivo: 12 mesi · Uffici: 24 mesi · Residenziale: 36 mesi.</p></details>
+      <details class="scene-card"><summary class="flex justify-between"><span class="display text-2xl">Sopralluogo?</span><span class="icn accent text-3xl">+</span></summary><p class="lead mt-4">Gratuito su provincia di Bologna e zone limitrofe. Preventivo entro 48h.</p></details>
+      <details class="scene-card"><summary class="flex justify-between"><span class="display text-2xl">Documentazione?</span><span class="icn accent text-3xl">+</span></summary><p class="lead mt-4">Dossier fotografico pre/post + attestato + piano di mantenimento.</p></details>
+      <details class="scene-card"><summary class="flex justify-between"><span class="display text-2xl">Garanzia?</span><span class="icn accent text-3xl">+</span></summary><p class="lead mt-4">Se il risultato non soddisfa, ripetiamo l'intervento gratuitamente.</p></details>
+    </div>
+  </section>
+
+  <!-- Booking / Form -->
+  <section id="contatti-cine" class="section section-narrow">
+    <div class="scene-card">
+      <p class="chapter-num mb-4">— Booking —</p>
+      <h2 class="h-section mb-4"><em>Si prenoti.</em></h2>
+      <p class="lead mb-8">Risposta entro 24 ore lavorative.</p>
+      <form action="https://api.web3forms.com/submit" method="POST" class="space-y-4">
+        <input type="hidden" name="access_key" value="REPLACE_WITH_WEB3FORMS_KEY" />
+        <input type="hidden" name="subject" value="Ariapura · Sopralluogo · V5 Cinecittà" />
+        <div class="form-row">
+          <input type="text" name="nome" placeholder="Nome e cognome *" required />
+          <input type="text" name="azienda" placeholder="Azienda / struttura" />
+        </div>
+        <div class="form-row">
+          <input type="email" name="email" placeholder="Email *" required />
+          <input type="tel" name="telefono" placeholder="Telefono *" required />
+        </div>
+        <textarea name="messaggio" rows="4" placeholder="Descriva l'impianto"></textarea>
+        <button type="submit" class="cta-primary w-full">Prenoti il Sopralluogo Gratuito</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- End card -->
+  <footer class="end-card">
+    <p class="chapter-num mb-3">— FIN —</p>
+    <p class="display text-4xl mb-3"><em>Ariapura</em></p>
+    <p class="text-sm" style="color:#C9BBA0;">Via Lame 261, Castel Maggiore (BO) · +39 051 0828717 · info@ariapura.org</p>
+    <p class="text-sm mt-2" style="color:#C9BBA0;">Lun-Ven 09:00-13:00 / 14:30-17:30 · Sab-Dom su appuntamento</p>
+    <p class="chapter-num mt-8">© 2026 ARIAPURA · P.IVA DA CONFERMARE · COOKIE TECNICI ESSENZIALI</p>
+  </footer>
+</main>
+
+<!-- Variant Switcher + Three.js Aether init -->
+<script>
+(function() {
+  const VARIANTS = ['aether', 'solomeo', 'cleanroom', 'terra', 'cinecitta'];
+  let aetherInited = false;
+  let aetherAnim = null;
+
+  function setVariant(v) {
+    document.body.className = 'v-' + v;
+    document.querySelectorAll('.switcher button').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.variant === v);
+    });
+    if (v === 'aether' && !aetherInited) initAether();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    try { localStorage.setItem('ariapura-variant', v); } catch(e) {}
+  }
+
+  document.querySelectorAll('.switcher button').forEach(btn => {
+    btn.addEventListener('click', () => setVariant(btn.dataset.variant));
+  });
+
+  // Restore last variant
+  try {
+    const saved = localStorage.getItem('ariapura-variant');
+    if (saved && VARIANTS.includes(saved)) setVariant(saved);
+    else initAether();
+  } catch(e) { initAether(); }
+
+  // === Three.js Aether particle field ===
+  function initAether() {
+    if (aetherInited) return;
+    if (typeof THREE === 'undefined') return;
+    const canvas = document.getElementById('aether-canvas');
+    if (!canvas) return;
+    aetherInited = true;
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const setSize = () => renderer.setSize(canvas.clientWidth || window.innerWidth, canvas.clientHeight || window.innerHeight, false);
+    setSize();
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x050709, 0.0018);
+
+    const camera = new THREE.PerspectiveCamera(60, (canvas.clientWidth || window.innerWidth) / (canvas.clientHeight || window.innerHeight), 1, 2000);
+    camera.position.z = 600;
+
+    // Particle geometry
+    const PARTICLE_COUNT = 3000;
+    const positions = new Float32Array(PARTICLE_COUNT * 3);
+    const sizes = new Float32Array(PARTICLE_COUNT);
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      positions[i*3] = (Math.random() - 0.5) * 1800;
+      positions[i*3+1] = (Math.random() - 0.5) * 1200;
+      positions[i*3+2] = (Math.random() - 0.5) * 1400;
+      sizes[i] = Math.random() * 1.6 + 0.4;
+    }
+    const geom = new THREE.BufferGeometry();
+    geom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geom.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+    // Soft circular sprite via canvas texture
+    const tex = (function() {
+      const c = document.createElement('canvas'); c.width = c.height = 64;
+      const g = c.getContext('2d');
+      const grad = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+      grad.addColorStop(0, 'rgba(232,238,242,1)');
+      grad.addColorStop(0.4, 'rgba(127,184,201,0.35)');
+      grad.addColorStop(1, 'rgba(127,184,201,0)');
+      g.fillStyle = grad; g.fillRect(0, 0, 64, 64);
+      return new THREE.CanvasTexture(c);
+    })();
+
+    const mat = new THREE.PointsMaterial({
+      size: 4.5, map: tex, transparent: true, depthWrite: false,
+      blending: THREE.AdditiveBlending, color: 0xC4D3D9, opacity: 0.85
+    });
+    const points = new THREE.Points(geom, mat);
+    scene.add(points);
+
+    let scrollY = 0;
+    window.addEventListener('scroll', () => { scrollY = window.scrollY; }, { passive: true });
+    window.addEventListener('resize', setSize);
+
+    let t = 0;
+    function animate() {
+      aetherAnim = requestAnimationFrame(animate);
+      t += 0.0008;
+      const pos = geom.attributes.position.array;
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        pos[i*3+1] += Math.sin(t + i * 0.01) * 0.08;
+        pos[i*3] += Math.cos(t * 0.7 + i * 0.005) * 0.04;
+      }
+      geom.attributes.position.needsUpdate = true;
+      points.rotation.y = t * 0.5;
+      camera.position.z = 600 - Math.min(scrollY * 0.2, 300);
+      renderer.render(scene, camera);
+    }
+    animate();
+  }
+
+  // === Terra parallax fog ===
+  const fog = document.querySelector('.v-terra .parallax-fog');
+  if (fog) {
+    window.addEventListener('scroll', () => {
+      if (!document.body.classList.contains('v-terra')) return;
+      const y = window.scrollY;
+      fog.style.transform = `translateY(${y * 0.3}px)`;
+    }, { passive: true });
+  }
+})();
+</script>
+
+</body>
+</html>
