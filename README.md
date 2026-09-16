@@ -2,6 +2,10 @@
 
 > **DEPRECATES** `skynetlabs-ariapura-relaunch`. This is the cinema-grade replacement bundle.
 
+## Status
+
+Last reviewed: September 2026 · release v2026.09
+
 Speculative pitch demo for **Ariapura** — sanificazione aeraulica HVAC, Bologna. 5 visually distinct cinematic variants in a single HTML file with a top-right switcher.
 
 - **Live URL (after deploy):** `https://skynetlabs-ariapura-cinema.vercel.app`
