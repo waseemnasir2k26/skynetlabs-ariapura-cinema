@@ -1,0 +1,4 @@
+- skynetlabs-ariapura-cinema is a public speculative pitch demo for Ariapura (HVAC air-duct sanitisation, Bologna): one index.html with five cinematic variants plus Italian pitch documents in docs/.
+- State: no commits since the 2026.09 release (2026-09-16); last functional commit 2026-05-08 added the short Italian outreach variant. Markup and deploy config were not touched.
+- Reviewed October 2026: README, commit history and link check; the stated live URL https://skynetlabs-ariapura-cinema.vercel.app returns 200; a Work with SkynetLabs section was added.
+- Known gaps, stated in the repo: robots.txt is Disallow: / because the pitch is speculative; Web3Forms key is a placeholder; founder surname and P.IVA unfilled; client photos not swapped in; no LICENSE; still waiting on the client to pick a variant.
